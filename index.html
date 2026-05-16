@@ -62,6 +62,20 @@
     <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
     <link rel="dns-prefetch" href="https://wa.me" />
 
+    <!-- ══ LCP: Preload hero image ══ -->
+    <link rel="preload" as="image" href="/panditji.png" fetchpriority="high" />
+
+    <!-- ══ Non-blocking Google Fonts (eliminates 780ms render block) ══ -->
+    <!-- Preload the CSS so it starts downloading immediately -->
+    <link rel="preload" as="style"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'" />
+    <!-- Fallback for JS-disabled browsers -->
+    <noscript>
+      <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" />
+    </noscript>
+
     <!-- ══ Structured Data / JSON-LD Schema ══ -->
     <script type="application/ld+json">
     {

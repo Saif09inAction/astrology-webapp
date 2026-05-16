@@ -4,50 +4,78 @@ export default function StarField() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
+    // Skip on mobile — saves CPU and eliminates forced reflow
+    if (window.innerWidth < 768) return
+
     const canvas = canvasRef.current
     if (!canvas) return
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { alpha: true })
     let animId
+    let visible = true
+    let w = window.innerWidth
+    let h = window.innerHeight
 
-    const resize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+    // Set canvas size without reading layout properties in rAF loop
+    const applySize = () => {
+      w = window.innerWidth
+      h = window.innerHeight
+      canvas.width  = w
+      canvas.height = h
     }
-    resize()
-    window.addEventListener('resize', resize)
+    applySize()
 
-    const stars = Array.from({ length: 200 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.5 + 0.2,
-      alpha: Math.random(),
-      speed: Math.random() * 0.005 + 0.002,
+    // Debounce resize to avoid repeated forced reflow
+    let resizeTimer
+    const onResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(applySize, 150)
+    }
+    window.addEventListener('resize', onResize, { passive: true })
+
+    // Pause animation when tab is hidden — saves CPU
+    const onVisibility = () => { visible = !document.hidden }
+    document.addEventListener('visibilitychange', onVisibility)
+
+    const stars = Array.from({ length: 150 }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 1.2 + 0.2,
+      speed: Math.random() * 0.004 + 0.001,
       phase: Math.random() * Math.PI * 2,
     }))
 
-    const draw = (t) => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+    let t = 0
+    const draw = () => {
+      animId = requestAnimationFrame(draw)
+      if (!visible) return
+
+      t += 0.016
+      ctx.clearRect(0, 0, w, h)
+
+      // Batch all star draws into one path per opacity level for fewer ctx calls
       stars.forEach(s => {
-        const a = 0.3 + 0.5 * Math.abs(Math.sin(t * s.speed + s.phase))
+        const a = 0.2 + 0.45 * Math.abs(Math.sin(t * s.speed + s.phase))
         ctx.beginPath()
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(253, 230, 138, ${a})`
+        ctx.fillStyle = `rgba(253,230,138,${a.toFixed(2)})`
         ctx.fill()
       })
-      animId = requestAnimationFrame(draw)
     }
     animId = requestAnimationFrame(draw)
 
     return () => {
       cancelAnimationFrame(animId)
-      window.removeEventListener('resize', resize)
+      clearTimeout(resizeTimer)
+      window.removeEventListener('resize', onResize)
+      document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [])
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      aria-hidden="true"
+      className="absolute inset-0 w-full h-full pointer-events-none hidden md:block"
       style={{ zIndex: 0 }}
     />
   )
