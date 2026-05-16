@@ -66,7 +66,7 @@ export default function Contact() {
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center" style={{ marginBottom: '72px' }}
+          className="text-center" style={{ marginBottom: 'clamp(36px,6vw,72px)' }}
         >
           <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4">
             ✦ Begin Your Journey ✦
@@ -79,7 +79,7 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
           {/* ── LEFT ── */}
           <motion.div

@@ -69,7 +69,7 @@ export default function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.06 }}
-              className="group flex items-center gap-7 py-7 px-6 rounded-2xl transition-all duration-300 cursor-pointer relative overflow-hidden"
+              className="group flex items-center gap-4 md:gap-7 py-5 md:py-7 px-4 md:px-6 rounded-2xl transition-all duration-300 cursor-pointer relative overflow-hidden"
               style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
             >
               {/* Hover background */}
@@ -80,7 +80,7 @@ export default function Services() {
 
               {/* Number */}
               <span
-                className="font-cinzel text-[36px] font-bold shrink-0 w-12 text-right leading-none transition-colors duration-300"
+                className="font-cinzel text-[22px] md:text-[36px] font-bold shrink-0 w-8 md:w-12 text-right leading-none transition-colors duration-300 hidden sm:block"
                 style={{ color: 'rgba(255,255,255,0.06)' }}
               >
                 {String(i + 1).padStart(2, '0')}
@@ -88,7 +88,7 @@ export default function Services() {
 
               {/* Icon box */}
               <div
-                className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-105"
+                className="w-11 h-11 md:w-14 md:h-14 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-105"
                 style={{ background: `${accent}12`, border: `1px solid ${accent}25`, color: accent }}
               >
                 <Icon />
@@ -97,7 +97,7 @@ export default function Services() {
               {/* Text */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2.5 mb-1">
-                  <h3 className="font-cinzel text-[16px] font-bold text-white/80 group-hover:text-white transition-colors duration-300">
+                  <h3 className="font-cinzel text-[13px] md:text-[16px] font-bold text-white/80 group-hover:text-white transition-colors duration-300">
                     {title}
                   </h3>
                   {tag && (
@@ -109,7 +109,7 @@ export default function Services() {
                     </span>
                   )}
                 </div>
-                <p className="font-poppins text-[13px] text-white/35 group-hover:text-white/55 transition-colors duration-300 truncate">
+                <p className="font-poppins text-[11px] md:text-[13px] text-white/35 group-hover:text-white/55 transition-colors duration-300 truncate">
                   {desc}
                 </p>
               </div>

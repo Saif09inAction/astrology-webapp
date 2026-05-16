@@ -38,7 +38,7 @@ export default function WhyChooseUs() {
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-14" style={{ marginBottom: '60px' }}
+          className="text-center" style={{ marginBottom: 'clamp(36px,6vw,60px)' }}
         >
           <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4">
             ✦ Why Trust Me ✦
@@ -52,7 +52,7 @@ export default function WhyChooseUs() {
         </motion.div>
 
         {/* Reason cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={{ marginBottom: '56px' }}>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8" style={{ marginBottom: '56px' }}>
           {reasons.map(({ icon: Icon, title, desc, accent }, i) => (
             <motion.div
               key={title}
@@ -60,7 +60,7 @@ export default function WhyChooseUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: i * 0.07 }}
-              className="group relative rounded-2xl p-8 overflow-hidden transition-all duration-300 hover:-translate-y-1"
+              className="group relative rounded-2xl p-5 md:p-8 overflow-hidden transition-all duration-300 hover:-translate-y-1"
               style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)' }}
             >
               {/* Top accent line on hover */}
@@ -76,14 +76,14 @@ export default function WhyChooseUs() {
 
               {/* Icon */}
               <div
-                className="w-13 h-13 rounded-xl flex items-center justify-center mb-5 relative z-10 transition-transform duration-300 group-hover:scale-110"
+                className="w-11 h-11 rounded-xl flex items-center justify-center mb-3 md:mb-5 relative z-10 transition-transform duration-300 group-hover:scale-110"
                 style={{ background: `${accent}12`, border: `1px solid ${accent}25` }}
               >
                 <Icon size={20} style={{ color: accent }} />
               </div>
 
-              <h3 className="font-cinzel text-[16px] font-bold text-white mb-2 relative z-10">{title}</h3>
-              <p className="font-poppins text-[13px] text-white/50 leading-relaxed relative z-10">{desc}</p>
+              <h3 className="font-cinzel text-[13px] md:text-[16px] font-bold text-white mb-1 md:mb-2 relative z-10">{title}</h3>
+              <p className="font-poppins text-[11px] md:text-[13px] text-white/50 leading-relaxed relative z-10 hidden sm:block">{desc}</p>
             </motion.div>
           ))}
         </div>
@@ -121,7 +121,7 @@ export default function WhyChooseUs() {
             <div className="w-full h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(245,158,11,0.2), transparent)' }} />
 
             {/* Stats */}
-            <div className="flex flex-wrap items-center justify-center gap-10">
+            <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
               {stats.map(({ value, label }) => (
                 <div key={label} className="text-center">
                   <p className="font-cinzel text-2xl md:text-3xl font-bold text-gold-400">{value}</p>

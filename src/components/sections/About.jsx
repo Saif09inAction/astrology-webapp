@@ -50,7 +50,7 @@ export default function About() {
           <span className="text-gradient-gold">Modern Clarity</span>
         </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-10 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-8 lg:gap-10 items-stretch">
 
           {/* ── LEFT: Image column ── */}
           <motion.div
@@ -62,7 +62,7 @@ export default function About() {
           >
             {/* Image frame */}
             <div
-              className="relative rounded-3xl overflow-hidden h-full min-h-[480px]"
+              className="relative rounded-3xl overflow-hidden h-full min-h-[320px] md:min-h-[480px]"
               style={{ border: '1px solid rgba(245,158,11,0.15)' }}
             >
               <img
@@ -102,7 +102,7 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="flex flex-col gap-6 justify-center"
+            className="flex flex-col gap-5 justify-center"
           >
             {/* Headline + description */}
             <div>

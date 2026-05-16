@@ -25,14 +25,14 @@ const base = [
 const row1 = [...base, ...base, ...base, ...base]
 const row2 = [...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1)]
 
-const CARD_W = 380   // px — each card width
+const CARD_W = 340
 const GAP    = 24    // px — gap between cards
 const SHIFT  = base.length * (CARD_W + GAP)  // move by exactly one base set
 
 function Card({ t }) {
   return (
     <div
-      className="relative rounded-2xl p-6 flex flex-col shrink-0"
+      className="testimonial-card relative rounded-2xl p-5 flex flex-col shrink-0"
       style={{ width: CARD_W, background: 'rgba(255,255,255,0.03)', border: `1px solid ${t.color}28` }}
     >
       <div className="absolute top-0 left-6 right-6 h-px rounded-full"
@@ -143,6 +143,11 @@ export default function Testimonials() {
           Hover to pause
         </p>
       </div>
+      <style>{`
+        @media (max-width: 639px) {
+          .testimonial-card { width: 240px !important; padding: 16px !important; }
+        }
+      `}</style>
     </section>
   )
 }

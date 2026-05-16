@@ -48,14 +48,14 @@ export default function FAQ() {
       <div className="site-container relative z-10">
 
         {/* Two-column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-10 lg:gap-20 items-start">
 
           {/* Left — sticky header */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:sticky lg:top-28"
+            className="lg:sticky lg:top-28 text-center lg:text-left"
           >
             <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4">
               ✦ Common Questions ✦

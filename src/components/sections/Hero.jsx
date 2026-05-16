@@ -92,7 +92,7 @@ export default function Hero() {
       ═══════════════════════════════════════════ */}
       <div
         className="site-container relative"
-        style={{ zIndex: 10, paddingTop: 'clamp(110px,12vw,140px)', paddingBottom: 'clamp(70px,8vw,100px)' }}
+        style={{ zIndex: 10, paddingTop: 'clamp(80px,12vw,140px)', paddingBottom: 'clamp(50px,8vw,100px)' }}
       >
 
         {/*
@@ -222,6 +222,7 @@ export default function Hero() {
               {...fadeUp(0.46)}
               className="hero-left-center"
               style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 36 }}
+              className="hero-cta-wrap"
             >
               <Button
                 as="a"
@@ -253,7 +254,8 @@ export default function Hero() {
                 borderTop: '1px solid rgba(255,255,255,0.06)',
                 paddingTop: 20,
                 maxWidth: 460,
-              }}>
+              }}
+              className="hero-stats">
                 {stats.map(({ value, label }, i) => (
                   <div key={label} style={{
                     flex: 1, textAlign: 'center',
@@ -370,6 +372,7 @@ export default function Hero() {
                 initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                className="hero-chip"
                 style={{
                   position: 'absolute', top: '40%', left: -22, zIndex: 2,
                   display: 'flex', alignItems: 'center', gap: 8,
@@ -397,6 +400,7 @@ export default function Hero() {
                 initial={{ opacity: 0, x: 16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
+                className="hero-chip"
                 style={{
                   position: 'absolute', top: -14, right: -12, zIndex: 2,
                   padding: '8px 14px', borderRadius: 12,
@@ -415,6 +419,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                className="hero-chip"
                 style={{
                   position: 'absolute', top: '42%', right: -20, zIndex: 2,
                   padding: '8px 13px', borderRadius: 12,
@@ -475,11 +480,16 @@ export default function Hero() {
 
         /* Mobile */
         @media (max-width: 639px) {
-          .hero-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+          .hero-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
           .hero-right { order: -1; }
-          .hero-right > div { max-width: 280px !important; }
+          .hero-right > div { max-width: 240px !important; transform: none !important; }
           .hero-left  { align-items: center !important; text-align: center !important; }
           .hero-left-center { align-self: center !important; text-align: center !important; }
+          .hero-chip { display: none !important; }
+          .hero-h1 { font-size: clamp(1.75rem, 7vw, 2.2rem) !important; }
+          .hero-cta-wrap { flex-direction: column !important; width: 100% !important; }
+          .hero-cta-wrap > * { width: 100% !important; justify-content: center !important; }
+          .hero-stats { max-width: 100% !important; }
         }
       `}</style>
     </section>

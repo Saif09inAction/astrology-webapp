@@ -42,19 +42,19 @@ export default function Navbar() {
       style={scrolled ? { background: 'rgba(3,7,18,0.92)', backdropFilter: 'blur(20px)' } : {}}
     >
       {/* Navbar row: logo left | nav absolutely centred | CTAs right */}
-      <div className="relative w-full flex items-center h-[120px] md:h-[90px]" style={{ paddingLeft: '2rem', paddingRight: '2rem' }}>
+      <div className="relative w-full flex items-center h-[64px] md:h-[90px]" style={{ paddingLeft: 'clamp(1rem, 3vw, 2rem)', paddingRight: 'clamp(1rem, 3vw, 2rem)' }}>
 
         {/* Logo — pinned to left */}
-        <button onClick={() => scrollTo('#hero')} className="flex items-center gap-3 group shrink-0 z-10">
+        <button onClick={() => scrollTo('#hero')} className="flex items-center gap-2 md:gap-3 group shrink-0 z-10">
           <div
-            className="w-14 h-14 rounded-xl flex items-center justify-center border border-gold-400/30 transition-all duration-300 group-hover:border-gold-400/60"
+            className="w-10 h-10 md:w-14 md:h-14 rounded-xl flex items-center justify-center border border-gold-400/30 transition-all duration-300 group-hover:border-gold-400/60"
             style={{ background: 'linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0.04) 100%)', boxShadow: '0 0 20px rgba(245,158,11,0.1)' }}
           >
-            <span className="font-cinzel text-gold-400 text-xl font-bold">ॐ</span>
+            <span className="font-cinzel text-gold-400 text-base md:text-xl font-bold">ॐ</span>
           </div>
           <div className="leading-none">
-            <p className="font-cinzel text-[20px] font-bold text-white">{PANDIT_NAME}</p>
-            <p className="font-poppins text-[13px] tracking-[0.22em] text-gold-400/60 uppercase mt-1.5">Vedic Astrology</p>
+            <p className="font-cinzel text-[15px] md:text-[20px] font-bold text-white">{PANDIT_NAME}</p>
+            <p className="font-poppins text-[10px] md:text-[13px] tracking-[0.22em] text-gold-400/60 uppercase mt-1">Vedic Astrology</p>
           </div>
         </button>
 
