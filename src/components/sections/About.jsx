@@ -37,7 +37,7 @@ export default function About() {
           viewport={{ once: true }}
           className="text-center font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4"
         >
-          ✦ Who I Am ✦
+          ॐ · परिचय · Who I Am
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 14 }}

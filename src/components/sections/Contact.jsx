@@ -69,7 +69,7 @@ export default function Contact() {
           className="text-center" style={{ marginBottom: 'clamp(36px,6vw,72px)' }}
         >
           <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4">
-            ✦ Begin Your Journey ✦
+            ॐ · संपर्क · Begin Your Journey
           </p>
           <h2 className="font-cinzel text-3xl md:text-4xl font-bold text-white mb-3">
             Get Free <span className="text-gradient-gold">Consultation</span>

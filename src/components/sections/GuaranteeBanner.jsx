@@ -22,14 +22,19 @@ export default function GuaranteeBanner() {
       <div className="py-16 md:py-20" style={{ background: 'linear-gradient(180deg, rgba(15,23,42,0.95) 0%, rgba(3,7,18,0.98) 100%)' }}>
 
         {/* Title */}
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center font-cinzel text-[10px] tracking-[0.35em] text-gold-400/60 uppercase mb-14"
+          className="text-center mb-14"
         >
-          ✦ Our Commitment to You ✦
-        </motion.p>
+          <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/60 uppercase mb-2">
+            ✦ Our Commitment to You ✦
+          </p>
+          <p className="font-cinzel text-[11px] tracking-widest mb-0" style={{ color: 'rgba(255,107,0,0.5)' }}>
+            सत्यमेव जयते — Truth Alone Triumphs
+          </p>
+        </motion.div>
 
         {/* ── Desktop: circular orbit ── */}
         <div className="hidden lg:flex justify-center">
@@ -70,13 +75,13 @@ export default function GuaranteeBanner() {
               <div
                 className="w-28 h-28 rounded-full flex flex-col items-center justify-center gap-1"
                 style={{
-                  background: 'radial-gradient(circle, rgba(245,158,11,0.09) 0%, transparent 70%)',
-                  border: '1px solid rgba(245,158,11,0.15)',
-                  boxShadow: '0 0 50px rgba(245,158,11,0.07)',
+                  background: 'radial-gradient(circle, rgba(255,107,0,0.12) 0%, rgba(245,158,11,0.06) 50%, transparent 70%)',
+                  border: '1px solid rgba(255,107,0,0.25)',
+                  boxShadow: '0 0 60px rgba(255,107,0,0.12), 0 0 30px rgba(245,158,11,0.08)',
                 }}
               >
-                <span className="font-cinzel text-gold-400/70 text-3xl leading-none">ॐ</span>
-                <span className="font-poppins text-[9px] tracking-widest text-gold-400/30 uppercase">always</span>
+                <span className="font-cinzel text-4xl leading-none font-bold" style={{ color: '#FF6B00', textShadow: '0 0 20px rgba(255,107,0,0.5)' }}>ॐ</span>
+                <span className="font-poppins text-[8px] tracking-[0.2em] uppercase mt-1" style={{ color: 'rgba(255,107,0,0.5)' }}>शुभम्</span>
               </div>
             </div>
 

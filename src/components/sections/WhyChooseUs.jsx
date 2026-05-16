@@ -41,7 +41,7 @@ export default function WhyChooseUs() {
           className="text-center" style={{ marginBottom: 'clamp(36px,6vw,60px)' }}
         >
           <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4">
-            ✦ Why Trust Me ✦
+            ॐ · विश्वास · Why Trust Me
           </p>
           <h2 className="font-cinzel text-3xl md:text-4xl font-bold text-white mb-2">
             The Difference <span className="text-gradient-gold">You'll Feel</span>

@@ -225,7 +225,7 @@ export default function Services() {
           className="text-center mb-14"
         >
           <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4">
-            ✦ Specializations ✦
+            ॐ · सेवाएं · Specializations
           </p>
           <h2 className="font-cinzel text-3xl md:text-4xl font-bold text-white leading-tight">
             How I Can <span className="text-gradient-gold">Help You</span>

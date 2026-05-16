@@ -58,7 +58,7 @@ export default function FAQ() {
             className="lg:sticky lg:top-28 text-center lg:text-left"
           >
             <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4">
-              ✦ Common Questions ✦
+              ॐ · जिज्ञासा · Common Questions
             </p>
             <h2 className="font-cinzel text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
               Everything You <br />

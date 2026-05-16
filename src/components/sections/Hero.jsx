@@ -132,7 +132,7 @@ export default function Hero() {
                   fontFamily: "'Poppins',sans-serif", fontSize: 11,
                   color: '#fbbf24', letterSpacing: '0.16em', textTransform: 'uppercase',
                 }}>
-                  Vedic Astrology &amp; Spiritual Healing
+                  ॐ · Vedic Astrology &amp; Spiritual Healing
                 </span>
               </div>
             </motion.div>
@@ -186,6 +186,15 @@ export default function Hero() {
               <span style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>
                 No payment until you see results.
               </span>
+            </motion.p>
+
+            {/* Sanskrit shloka */}
+            <motion.p
+              {...fadeUp(0.28)}
+              className="hero-left-center font-cinzel text-[11px] tracking-widest"
+              style={{ color: 'rgba(255,107,0,0.55)', marginBottom: 20, marginTop: -10 }}
+            >
+              ✦ यत्र योगेश्वरः कृष्णो यत्र पार्थो धनुर्धरः ✦
             </motion.p>
 
             {/* Guarantee pills — 2×2 compact grid */}

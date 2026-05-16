@@ -1,6 +1,7 @@
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import FloatingButtons from '../components/ui/FloatingButtons'
+import MantraBanner from '../components/ui/MantraBanner'
 import Hero from '../components/sections/Hero'
 import GuaranteeBanner from '../components/sections/GuaranteeBanner'
 import About from '../components/sections/About'
@@ -16,6 +17,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <MantraBanner />
         <GuaranteeBanner />
         <About />
         <Services />

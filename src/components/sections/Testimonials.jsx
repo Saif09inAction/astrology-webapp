@@ -91,7 +91,7 @@ export default function Testimonials() {
           className="text-center site-container" style={{ marginBottom: '40px' }}
         >
           <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4">
-            ✦ Client Stories ✦
+            ॐ · अनुभव · Client Stories
           </p>
           <h2 className="font-cinzel text-3xl md:text-4xl font-bold text-white mb-3">
             Lives <span className="text-gradient-gold">Transformed</span>

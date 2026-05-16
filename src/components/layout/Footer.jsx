@@ -108,6 +108,16 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
+      {/* Sanskrit blessing strip */}
+      <div className="py-3 text-center" style={{ background: 'rgba(255,107,0,0.04)', borderTop: '1px solid rgba(255,107,0,0.1)' }}>
+        <p className="font-cinzel text-[12px] tracking-widest" style={{ color: 'rgba(255,107,0,0.55)' }}>
+          ॐ सर्वे भवन्तु सुखिनः · सर्वे सन्तु निरामयाः
+        </p>
+        <p className="font-poppins text-[10px] mt-1" style={{ color: 'rgba(255,255,255,0.2)' }}>
+          May all beings be happy · May all beings be free from illness
+        </p>
+      </div>
+
       <div className="border-t border-white/5 py-4">
         <div className="site-container flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="font-poppins text-[11px] text-white/20">© {new Date().getFullYear()} {PANDIT_NAME} · All rights reserved</p>
