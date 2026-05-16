@@ -39,6 +39,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
+      aria-label="Frequently Asked Questions about Vedic Astrology Consultation"
       className="relative section-padding overflow-hidden"
       style={{ background: 'linear-gradient(180deg, rgba(3,7,18,1) 0%, rgba(10,15,35,1) 100%)' }}
     >

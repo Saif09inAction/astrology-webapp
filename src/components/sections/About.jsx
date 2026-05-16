@@ -22,7 +22,7 @@ const stats = [
 
 export default function About() {
   return (
-    <section id="about" className="relative section-padding overflow-hidden"
+    <section id="about" aria-label="About Dheeraj Shastri Ji" className="relative section-padding overflow-hidden"
       style={{ background: 'linear-gradient(180deg, rgba(3,7,18,1) 0%, rgba(10,15,35,1) 100%)' }}
     >
       <GlowOrb color="gold"   size={500} top="40%" left="0%"   opacity={0.06} />
@@ -67,7 +67,11 @@ export default function About() {
             >
               <img
                 src="/panditji2.jpg"
-                alt={PANDIT_NAME}
+                alt={`${PANDIT_NAME} – Vedic Astrologer with 15+ years of experience`}
+                loading="lazy"
+                decoding="async"
+                width="420"
+                height="560"
                 className="w-full h-full object-cover object-center"
                 style={{ minHeight: 480 }}
               />

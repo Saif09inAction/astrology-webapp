@@ -1,0 +1,22 @@
+{
+  "name": "Dheeraj Shastri Ji – Vedic Astrologer",
+  "short_name": "Dheeraj Shastri Ji",
+  "description": "India's most trusted Vedic astrologer. Love, marriage & career solutions. Results in 24 hours.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#030712",
+  "orientation": "portrait-primary",
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "health", "education"],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

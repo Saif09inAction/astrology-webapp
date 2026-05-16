@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Block admin panel from indexing
+Disallow: /admin
+Disallow: /admin/
+
+# Block common unwanted paths
+Disallow: /src/
+Disallow: /.env
+
+# Crawl-delay for polite crawling
+Crawl-delay: 10
+
+# Sitemap
+Sitemap: https://dheerajshastri.com/sitemap.xml

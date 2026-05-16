@@ -29,6 +29,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
+      aria-label="Dheeraj Shastri Ji – India's Most Trusted Vedic Astrologer"
       className="relative overflow-hidden"
       style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', background: '#030712' }}
     >
@@ -329,7 +330,11 @@ export default function Hero() {
                 {/* Actual image */}
                 <img
                   src="/panditji.png"
-                  alt={PANDIT_NAME}
+                  alt={`${PANDIT_NAME} – India's Most Trusted Vedic Astrologer`}
+                  width="460"
+                  height="615"
+                  fetchPriority="high"
+                  decoding="sync"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
                   onError={e => {
                     e.target.style.display = 'none'

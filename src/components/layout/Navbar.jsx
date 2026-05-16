@@ -65,7 +65,7 @@ export default function Navbar() {
           </button>
 
           {/* Desktop nav — centred */}
-          <nav className="hidden lg:flex items-center gap-9 absolute left-1/2 -translate-x-1/2">
+          <nav className="hidden lg:flex items-center gap-9 absolute left-1/2 -translate-x-1/2" aria-label="Main navigation">
             {navLinks.map(link => (
               <button
                 key={link.label}
@@ -91,6 +91,8 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setOpen(v => !v)}
+            aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={open}
             className="lg:hidden flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 z-10"
             style={{
               background: open ? 'rgba(245,158,11,0.18)' : 'rgba(255,255,255,0.06)',

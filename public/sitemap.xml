@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+  <url>
+    <loc>https://dheerajshastri.com/</loc>
+    <lastmod>2026-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en-IN" href="https://dheerajshastri.com/" />
+    <image:image>
+      <image:loc>https://dheerajshastri.com/og-image.jpg</image:loc>
+      <image:title>Dheeraj Shastri Ji – India's Most Trusted Vedic Astrologer</image:title>
+      <image:caption>Dheeraj Shastri Ji – 15+ years experience, 5000+ clients, results in 24 hours</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dheerajshastri.com/panditji.png</image:loc>
+      <image:title>Pandit Dheeraj Shastri Ji – Vedic Astrologer</image:title>
+      <image:caption>Pandit Dheeraj Shastri Ji, expert Vedic astrologer with 15+ years of experience</image:caption>
+    </image:image>
+  </url>
+</urlset>

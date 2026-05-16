@@ -14,8 +14,9 @@ import Contact from '../components/sections/Contact'
 export default function Home() {
   return (
     <div className="relative">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <Navbar />
-      <main>
+      <main id="main-content" role="main">
         <Hero />
         <MantraBanner />
         <GuaranteeBanner />

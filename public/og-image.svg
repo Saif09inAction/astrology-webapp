@@ -1,0 +1,92 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#030712"/>
+      <stop offset="50%" stop-color="#0a0f1e"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fcd34d"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+    <radialGradient id="purpleGlow" cx="25%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="#6d28d9" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#030712" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="goldGlow" cx="75%" cy="40%" r="35%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#030712" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#purpleGlow)"/>
+  <rect width="1200" height="630" fill="url(#goldGlow)"/>
+
+  <!-- Top gold border line -->
+  <rect x="0" y="0" width="1200" height="3" fill="url(#gold)" opacity="0.8"/>
+  <!-- Bottom gold border line -->
+  <rect x="0" y="627" width="1200" height="3" fill="url(#gold)" opacity="0.4"/>
+
+  <!-- Left accent bar -->
+  <rect x="80" y="60" width="2" height="510" fill="url(#gold)" opacity="0.3"/>
+
+  <!-- Om Symbol  large, centered left -->
+  <text x="160" y="380" font-family="serif" font-size="220" fill="#f59e0b" opacity="0.08" text-anchor="middle">P</text>
+
+  <!-- Decorative dots ring -->
+  <circle cx="950" cy="315" r="200" fill="none" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4 12" opacity="0.12"/>
+  <circle cx="950" cy="315" r="240" fill="none" stroke="#a78bfa" stroke-width="0.5" opacity="0.08"/>
+
+  <!-- Content area -->
+  <!-- Small Om badge -->
+  <text x="110" y="145" font-family="serif" font-size="18" fill="#f59e0b" opacity="0.7" filter="url(#glow)">P</text>
+  <text x="138" y="145" font-family="Georgia, serif" font-size="11" fill="#fbbf24" opacity="0.5" letter-spacing="3">VEDIC ASTROLOGY &amp; SPIRITUAL HEALING</text>
+
+  <!-- Divider line after badge -->
+  <rect x="110" y="158" width="340" height="1" fill="url(#gold)" opacity="0.2"/>
+
+  <!-- Main headline -->
+  <text x="110" y="240" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-weight="bold" fill="white" opacity="0.95">Dheeraj Shastri Ji</text>
+
+  <!-- Gold subtitle -->
+  <text x="110" y="295" font-family="Georgia, serif" font-size="26" fill="url(#gold)" filter="url(#glow)">India's Most Trusted Vedic Astrologer</text>
+
+  <!-- Description -->
+  <text x="110" y="355" font-family="Arial, sans-serif" font-size="17" fill="white" opacity="0.45">15+ Years Experience  ·  5,000+ Clients  ·  50+ Countries  ·  4.9 Rating</text>
+
+  <!-- Guarantee pills -->
+  <!-- Pill 1 -->
+  <rect x="110" y="395" width="210" height="42" rx="21" fill="#fbbf24" fill-opacity="0.08" stroke="#fbbf24" stroke-opacity="0.25" stroke-width="1"/>
+  <text x="215" y="421" font-family="Arial, sans-serif" font-size="13" fill="#fbbf24" text-anchor="middle" opacity="0.9">ñ Results in 24 Hours</text>
+
+  <!-- Pill 2 -->
+  <rect x="332" y="395" width="200" height="42" rx="21" fill="#a78bfa" fill-opacity="0.08" stroke="#a78bfa" stroke-opacity="0.25" stroke-width="1"/>
+  <text x="432" y="421" font-family="Arial, sans-serif" font-size="13" fill="#a78bfa" text-anchor="middle" opacity="0.9"> Pay After Results</text>
+
+  <!-- Pill 3 -->
+  <rect x="544" y="395" width="190" height="42" rx="21" fill="#34d399" fill-opacity="0.08" stroke="#34d399" stroke-opacity="0.25" stroke-width="1"/>
+  <text x="639" y="421" font-family="Arial, sans-serif" font-size="13" fill="#34d399" text-anchor="middle" opacity="0.9">= 100% Confidential</text>
+
+  <!-- WhatsApp CTA bar -->
+  <rect x="110" y="470" width="320" height="56" rx="12" fill="#f59e0b"/>
+  <text x="270" y="504" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#0a0f1e" text-anchor="middle">=¬ Free WhatsApp Consultation</text>
+
+  <!-- Phone number -->
+  <text x="110" y="558" font-family="Arial, sans-serif" font-size="15" fill="white" opacity="0.35">+91 72578 57609  ·  Available 24×7</text>
+
+  <!-- Sanskrit blessing bottom right -->
+  <text x="1090" y="580" font-family="serif" font-size="13" fill="#f59e0b" opacity="0.3" text-anchor="end">P 80M5G -5(M$A 8A?(</text>
+
+  <!-- Decorative star markers on orbit -->
+  <circle cx="950" cy="115" r="4" fill="#fbbf24" opacity="0.5"/>
+  <circle cx="1150" cy="315" r="4" fill="#a78bfa" opacity="0.4"/>
+  <circle cx="950" cy="515" r="4" fill="#34d399" opacity="0.4"/>
+  <circle cx="750" cy="315" r="4" fill="#f472b6" opacity="0.4"/>
+</svg>
