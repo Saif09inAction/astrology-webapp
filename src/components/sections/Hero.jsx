@@ -3,7 +3,8 @@ import { Phone, Clock, Infinity, ShieldCheck } from 'lucide-react'
 import StarField from '../ui/StarField'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
-import { PANDIT_NAME, PHONE_DISPLAY, PHONE_TEL, WHATSAPP_CONSULT } from '../../constants'
+import { PANDIT_NAME, PHONE_DISPLAY, PHONE_TEL } from '../../constants'
+import { useApp } from '../../context/AppContext'
 
 /* ─── Stagger helper ─── */
 const fadeUp = (delay = 0) => ({
@@ -26,6 +27,7 @@ const stats = [
 ]
 
 export default function Hero() {
+  const { openModal } = useApp()
   return (
     <section
       id="hero"
@@ -252,11 +254,9 @@ export default function Hero() {
               style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 36 }}
             >
               <Button
-                as="a"
+                as="button"
                 variant="primary"
-                href={WHATSAPP_CONSULT}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={() => openModal()}
                 icon={<WhatsAppIcon size={18} />}
               >
                 Free WhatsApp Consultation

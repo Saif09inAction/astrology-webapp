@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Heart, ArrowLeftRight, Briefcase, TrendingUp, Home, Shield } from 'lucide-react'
 import GlowOrb from '../ui/GlowOrb'
-import { WHATSAPP_CONSULT } from '../../constants'
+import { useApp } from '../../context/AppContext'
 
 const MarriageIcon = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
@@ -73,11 +73,10 @@ const services = [
 /* ── Featured card (spans 2 cols on md+) ── */
 function FeaturedCard({ service, delay }) {
   const { Icon, title, desc, accent, tag } = service
+  const { openModal } = useApp()
   return (
-    <motion.a
-      href={WHATSAPP_CONSULT}
-      target="_blank"
-      rel="noopener noreferrer"
+    <motion.div
+      onClick={() => openModal(title)}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -143,18 +142,17 @@ function FeaturedCard({ service, delay }) {
           <path d="M2 7h10M8 4l3 3-3 3" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
-    </motion.a>
+    </motion.div>
   )
 }
 
 /* ── Regular card ── */
 function ServiceCard({ service, delay }) {
   const { Icon, title, desc, accent } = service
+  const { openModal } = useApp()
   return (
-    <motion.a
-      href={WHATSAPP_CONSULT}
-      target="_blank"
-      rel="noopener noreferrer"
+    <motion.div
+      onClick={() => openModal(title)}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -198,7 +196,36 @@ function ServiceCard({ service, delay }) {
           <path d="M2 6h8M7 3.5L9.5 6 7 8.5" stroke={accent} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
-    </motion.a>
+    </motion.div>
+  )
+}
+
+/* ── Mobile horizontal list card ── */
+function MobileServiceCard({ Icon, title, desc, accent, delay }) {
+  const { openModal } = useApp()
+  return (
+    <motion.div
+      onClick={() => openModal(title)}
+      initial={{ opacity: 0, x: -16 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay }}
+      className="flex items-center gap-4 rounded-2xl cursor-pointer active:scale-[0.98] transition-transform"
+      style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${accent}20`, padding: '16px 18px' }}
+    >
+      <div style={{ width: 3, height: 40, borderRadius: 2, background: accent, flexShrink: 0 }} />
+      <div className="rounded-xl flex items-center justify-center shrink-0"
+        style={{ width: 44, height: 44, background: `${accent}15`, border: `1px solid ${accent}30`, color: accent }}>
+        <Icon size={20} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="font-cinzel font-bold text-white text-[13px] leading-tight">{title}</p>
+        <p className="font-poppins text-[11px] text-white/40 mt-0.5 leading-snug truncate">{desc}</p>
+      </div>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 opacity-30">
+        <path d="M6 4l4 4-4 4" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </motion.div>
   )
 }
 
@@ -253,41 +280,7 @@ export default function Services() {
         {/* Mobile-only: horizontal list cards */}
         <div className="md:hidden flex flex-col" style={{ gap: '10px' }}>
           {regular.map(({ Icon, title, desc, accent }, i) => (
-            <motion.a
-              key={title}
-              href={WHATSAPP_CONSULT}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, x: -16 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="flex items-center gap-4 rounded-2xl"
-              style={{
-                background: 'rgba(255,255,255,0.025)',
-                border: `1px solid ${accent}20`,
-                padding: '16px 18px',
-              }}
-            >
-              {/* Accent left bar */}
-              <div style={{ width: 3, height: 40, borderRadius: 2, background: accent, flexShrink: 0 }} />
-              {/* Icon */}
-              <div
-                className="rounded-xl flex items-center justify-center shrink-0"
-                style={{ width: 44, height: 44, background: `${accent}15`, border: `1px solid ${accent}30`, color: accent }}
-              >
-                <Icon size={20} />
-              </div>
-              {/* Text */}
-              <div className="flex-1 min-w-0">
-                <p className="font-cinzel font-bold text-white text-[13px] leading-tight">{title}</p>
-                <p className="font-poppins text-[11px] text-white/40 mt-0.5 leading-snug truncate">{desc}</p>
-              </div>
-              {/* Arrow */}
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 opacity-30">
-                <path d="M6 4l4 4-4 4" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </motion.a>
+            <MobileServiceCard key={title} Icon={Icon} title={title} desc={desc} accent={accent} delay={i * 0.05} />
           ))}
         </div>
 

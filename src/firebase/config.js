@@ -2,17 +2,17 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 
-// Replace with your actual Firebase project config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBcXCareWPVkQKHleZBEa3Y9Hhj8Z0a7oY",
+  authDomain: "astrology-3add3.firebaseapp.com",
+  projectId: "astrology-3add3",
+  storageBucket: "astrology-3add3.firebasestorage.app",
+  messagingSenderId: "714650127897",
+  appId: "1:714650127897:web:7c17f983e85d40b9eda488",
+  measurementId: "G-7SQJK4TV34",
 }
 
 const app = initializeApp(firebaseConfig)
-export const db = getFirestore(app)
+export const db  = getFirestore(app)
 export const auth = getAuth(app)
 export default app

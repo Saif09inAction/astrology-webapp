@@ -3,6 +3,8 @@ import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import FloatingButtons from '../components/ui/FloatingButtons'
 import MantraBanner from '../components/ui/MantraBanner'
+import LeadModal from '../components/ui/LeadModal'
+import { AppProvider } from '../context/AppContext'
 
 // Hero loads eagerly — it's the LCP element
 import Hero from '../components/sections/Hero'
@@ -31,9 +33,11 @@ function SectionSkeleton() {
 
 export default function Home() {
   return (
+    <AppProvider>
     <div className="relative">
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <Navbar />
+      <LeadModal />
       <main id="main-content" role="main">
         <Hero />
         <MantraBanner />
@@ -62,5 +66,6 @@ export default function Home() {
       <Footer />
       <FloatingButtons />
     </div>
+    </AppProvider>
   )
 }

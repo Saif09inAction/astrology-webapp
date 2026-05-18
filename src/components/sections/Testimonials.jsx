@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Star } from 'lucide-react'
 import GlowOrb from '../ui/GlowOrb'
+import { getTestimonials } from '../../firebase/firestore'
 
-const base = [
+const STATIC_BASE = [
   {
     name: 'Priya Sharma',  location: 'Delhi',     service: 'Love Problem',    rating: 5,
     text: 'My partner came back within 3 weeks. I owe everything to Pandit Ji — his remedies truly work.',
@@ -21,13 +22,14 @@ const base = [
   },
 ]
 
-// Two rows — row2 starts offset so they look different
-const row1 = [...base, ...base, ...base, ...base]
-const row2 = [...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1)]
-
 const CARD_W = 340
-const GAP    = 24    // px — gap between cards
-const SHIFT  = base.length * (CARD_W + GAP)  // move by exactly one base set
+const GAP    = 24
+
+function buildRows(base) {
+  const row1 = [...base, ...base, ...base, ...base]
+  const row2 = [...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1)]
+  return { row1, row2 }
+}
 
 function Card({ t }) {
   return (
@@ -72,6 +74,15 @@ function Card({ t }) {
 
 export default function Testimonials() {
   const [paused, setPaused] = useState(false)
+  const [base,   setBase]   = useState(STATIC_BASE)
+
+  useEffect(() => {
+    getTestimonials()
+      .then(data => { if (data.length >= 3) setBase(data) })
+      .catch(() => {})
+  }, [])
+
+  const { row1, row2 } = buildRows(base)
 
   return (
     <section
