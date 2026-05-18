@@ -70,7 +70,7 @@ export default function About() {
               style={{ border: '1px solid rgba(245,158,11,0.15)' }}
             >
               <img
-                src="/panditji2.jpg"
+                src="/pandit2.jpeg"
                 alt={`${panditName} – Vedic Astrologer with 15+ years of experience`}
                 loading="lazy"
                 decoding="async"

@@ -346,7 +346,7 @@ export default function Hero() {
               }}>
                 {/* Actual image */}
                 <img
-                  src="/panditji.png"
+                  src="/pandit1.jpeg"
                   alt={`${panditName} – India's Most Trusted Vedic Astrologer`}
                   width="460"
                   height="615"
