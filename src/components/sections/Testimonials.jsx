@@ -1,64 +1,51 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Star } from 'lucide-react'
 import GlowOrb from '../ui/GlowOrb'
 import { getTestimonials } from '../../firebase/firestore'
 
 const STATIC_BASE = [
-  {
-    name: 'Priya Sharma',  location: 'Delhi',     service: 'Love Problem',    rating: 5,
-    text: 'My partner came back within 3 weeks. I owe everything to Pandit Ji — his remedies truly work.',
-    color: '#f472b6', avatar: 'PS',
-  },
-  {
-    name: 'Rahul Verma',   location: 'Mumbai',    service: 'Career Guidance', rating: 5,
-    text: 'Stuck for 7 years in the same job. After consulting, I got a promotion and a better offer within 2 months.',
-    color: '#60a5fa', avatar: 'RV',
-  },
-  {
-    name: 'Anita Patel',   location: 'Ahmedabad', service: 'Kundli Matching', rating: 5,
-    text: 'Both families were against our marriage. Pandit Ji resolved every dosha and we had a beautiful wedding.',
-    color: '#fbbf24', avatar: 'AP',
-  },
+  { name: 'Priya Sharma',  location: 'Delhi',     service: 'Love Problem',    rating: 5, text: 'My partner came back within 3 weeks. I owe everything to Pandit Ji — his remedies truly work.', color: '#f472b6', avatar: 'PS' },
+  { name: 'Rahul Verma',   location: 'Mumbai',    service: 'Career Guidance', rating: 5, text: 'Stuck for 7 years in the same job. After consulting, I got a promotion and a better offer within 2 months.', color: '#60a5fa', avatar: 'RV' },
+  { name: 'Anita Patel',   location: 'Ahmedabad', service: 'Kundli Matching', rating: 5, text: 'Both families were against our marriage. Pandit Ji resolved every dosha and we had a beautiful wedding.', color: '#fbbf24', avatar: 'AP' },
+  { name: 'Vikram Singh',  location: 'Delhi',     service: 'Ex Love Back',    rating: 5, text: 'My ex came back within a week. I am so grateful to Dheeraj Shastri Ji.', color: '#a78bfa', avatar: 'VS' },
+  { name: 'Sunita Gupta',  location: 'Jaipur',    service: 'Business',        rating: 5, text: 'My business was at a loss for 2 years. After his remedies, everything turned around completely.', color: '#34d399', avatar: 'SG' },
 ]
 
-const CARD_W = 340
-const GAP    = 24
-
-function buildRows(base) {
-  const row1 = [...base, ...base, ...base, ...base]
-  const row2 = [...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1), ...base.slice(1), ...base.slice(0,1)]
-  return { row1, row2 }
-}
+const GAP = 20
 
 function Card({ t }) {
   return (
     <div
-      className="testimonial-card relative rounded-2xl p-5 flex flex-col shrink-0"
-      style={{ width: CARD_W, background: 'rgba(255,255,255,0.03)', border: `1px solid ${t.color}28` }}
+      className="relative rounded-2xl p-5 flex flex-col shrink-0"
+      style={{
+        width: 'clamp(260px, 80vw, 340px)',
+        background: 'rgba(255,255,255,0.03)',
+        border: `1px solid ${t.color}28`,
+      }}
     >
       <div className="absolute top-0 left-6 right-6 h-px rounded-full"
-        style={{ background: `linear-gradient(90deg, transparent, ${t.color}60, transparent)` }} />
+        style={{ background: `linear-gradient(90deg,transparent,${t.color}60,transparent)` }} />
 
-      <div className="flex gap-1 mb-4">
-        {Array.from({ length: t.rating }).map((_, i) => (
-          <Star key={i} size={13} fill="#f59e0b" className="text-gold-400" />
+      <div className="flex gap-1 mb-3">
+        {Array.from({ length: t.rating || 5 }).map((_, i) => (
+          <Star key={i} size={13} fill="#f59e0b" className="text-yellow-400" />
         ))}
       </div>
 
-      <p className="font-poppins text-[13px] text-white/65 leading-relaxed italic flex-1 mb-5">
+      <p className="font-poppins text-[13px] text-white/65 leading-relaxed italic flex-1 mb-4">
         "{t.text}"
       </p>
 
       <div className="flex items-center gap-3">
         <div
-          className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-cinzel text-[11px] font-bold text-white"
-          style={{ background: `linear-gradient(135deg, ${t.color}90, ${t.color}30)`, border: `1px solid ${t.color}40` }}
+          className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 font-cinzel text-[11px] font-bold text-white"
+          style={{ background: `linear-gradient(135deg,${t.color}90,${t.color}30)`, border: `1px solid ${t.color}40` }}
         >
-          {t.avatar}
+          {t.avatar || t.name?.[0]}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-cinzel text-[13px] font-bold text-white">{t.name}</p>
+          <p className="font-cinzel text-[13px] font-bold text-white truncate">{t.name}</p>
           <p className="font-poppins text-[10px] text-white/35">{t.location}</p>
         </div>
         <span
@@ -72,17 +59,109 @@ function Card({ t }) {
   )
 }
 
+/* ─── Infinite marquee row using RAF — supports touch drag ─── */
+function MarqueeRow({ cards, reverse = false, speed = 0.45 }) {
+  const wrapRef  = useRef(null)
+  const trackRef = useRef(null)
+  const posRef   = useRef(null)   // null = not yet initialised
+  const rafRef   = useRef(null)
+  const pauseRef = useRef(false)
+  const touchRef = useRef({ active: false, lastX: 0 })
+
+  /* Duplicate cards enough times to fill any viewport with overflow */
+  const repeated = [...cards, ...cards, ...cards, ...cards, ...cards, ...cards]
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+
+    /* Wait one frame so the track has measured width */
+    const init = () => {
+      const unitW = track.scrollWidth / 6 // one copy width (6 duplicates)
+      if (posRef.current === null) {
+        posRef.current = reverse ? -unitW : 0
+      }
+
+      const tick = () => {
+        if (!pauseRef.current) {
+          if (reverse) {
+            posRef.current += speed
+            if (posRef.current >= 0) posRef.current -= unitW
+          } else {
+            posRef.current -= speed
+            if (posRef.current <= -unitW) posRef.current += unitW
+          }
+          track.style.transform = `translateX(${posRef.current}px)`
+        }
+        rafRef.current = requestAnimationFrame(tick)
+      }
+
+      rafRef.current = requestAnimationFrame(tick)
+    }
+
+    const frame = requestAnimationFrame(init)
+    return () => {
+      cancelAnimationFrame(frame)
+      cancelAnimationFrame(rafRef.current)
+    }
+  }, [cards.length, reverse, speed])
+
+  /* Desktop hover */
+  const onMouseEnter = () => { pauseRef.current = true }
+  const onMouseLeave = () => { pauseRef.current = false }
+
+  /* Mobile touch — pause + drag */
+  const onTouchStart = useCallback((e) => {
+    pauseRef.current = true
+    touchRef.current = { active: true, lastX: e.touches[0].clientX }
+  }, [])
+
+  const onTouchMove = useCallback((e) => {
+    if (!touchRef.current.active) return
+    e.preventDefault()
+    const dx = e.touches[0].clientX - touchRef.current.lastX
+    touchRef.current.lastX = e.touches[0].clientX
+    posRef.current = (posRef.current || 0) + dx
+    if (trackRef.current) {
+      trackRef.current.style.transform = `translateX(${posRef.current}px)`
+    }
+  }, [])
+
+  const onTouchEnd = useCallback(() => {
+    touchRef.current.active = false
+    pauseRef.current = false
+  }, [])
+
+  return (
+    <div
+      ref={wrapRef}
+      className="overflow-hidden"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      style={{ touchAction: 'pan-y' }}
+    >
+      <div
+        ref={trackRef}
+        className="flex"
+        style={{ gap: GAP, willChange: 'transform' }}
+      >
+        {repeated.map((t, i) => <Card key={i} t={t} />)}
+      </div>
+    </div>
+  )
+}
+
 export default function Testimonials() {
-  const [paused, setPaused] = useState(false)
-  const [base,   setBase]   = useState(STATIC_BASE)
+  const [cards, setCards] = useState(STATIC_BASE)
 
   useEffect(() => {
     getTestimonials()
-      .then(data => { if (data.length >= 3) setBase(data) })
+      .then(data => { if (data.length >= 1) setCards(data) })
       .catch(() => {})
   }, [])
-
-  const { row1, row2 } = buildRows(base)
 
   return (
     <section
@@ -90,8 +169,8 @@ export default function Testimonials() {
       aria-label="Client testimonials"
       className="relative overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, rgba(10,15,35,1) 0%, rgba(3,7,18,1) 100%)',
-        paddingTop: 'clamp(4rem,10vw,8rem)',
+        background: 'linear-gradient(180deg,rgba(10,15,35,1) 0%,rgba(3,7,18,1) 100%)',
+        paddingTop:    'clamp(4rem,10vw,8rem)',
         paddingBottom: 'clamp(4rem,10vw,8rem)',
       }}
     >
@@ -104,66 +183,36 @@ export default function Testimonials() {
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center site-container" style={{ marginBottom: '40px' }}
+          className="text-center site-container"
+          style={{ marginBottom: '40px' }}
         >
-          <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4">
+          <p className="font-cinzel text-[10px] tracking-[0.35em] text-yellow-400/50 uppercase mb-4">
             ॐ · अनुभव · Client Stories
           </p>
           <h2 className="font-cinzel text-3xl md:text-4xl font-bold text-white mb-3">
             Lives <span className="text-gradient-gold">Transformed</span>
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '14px', textAlign: 'center', fontFamily: 'Poppins, sans-serif' }}>
+          <p className="font-poppins text-sm text-center" style={{ color: 'rgba(255,255,255,0.55)' }}>
             Real people. Real results. Verified across 50+ countries.
           </p>
         </motion.div>
 
-        {/* Marquee — two rows */}
-        <div
-          className="overflow-hidden"
-          style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-        >
-          {/* Row 1 — scrolls left */}
-          <div
-            className="flex"
-            style={{
-              gap: GAP,
-              animation: 'marquee-left 20s linear infinite',
-              animationPlayState: paused ? 'paused' : 'running',
-            }}
-          >
-            {row1.map((t, i) => <Card key={i} t={t} />)}
-          </div>
-
-          {/* Row 2 — scrolls right */}
-          <div
-            className="flex"
-            style={{
-              gap: GAP,
-              animation: 'marquee-right 20s linear infinite',
-              animationPlayState: paused ? 'paused' : 'running',
-            }}
-          >
-            {row2.map((t, i) => <Card key={i} t={t} />)}
-          </div>
+        {/* Two marquee rows */}
+        <div className="flex flex-col" style={{ gap: 20 }}>
+          <MarqueeRow cards={cards} reverse={false} speed={0.45} />
+          <MarqueeRow cards={cards} reverse={true}  speed={0.45} />
         </div>
 
-        {/* Left + right edge fades */}
+        {/* Edge fades */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-24 z-10"
-          style={{ background: 'linear-gradient(90deg, rgba(10,15,35,1) 0%, transparent 100%)' }} />
+          style={{ background: 'linear-gradient(90deg,rgba(10,15,35,1) 0%,transparent 100%)' }} />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-24 z-10"
-          style={{ background: 'linear-gradient(-90deg, rgba(10,15,35,1) 0%, transparent 100%)' }} />
+          style={{ background: 'linear-gradient(-90deg,rgba(10,15,35,1) 0%,transparent 100%)' }} />
 
         <p className="text-center font-poppins text-[10px] text-white/20 tracking-widest uppercase mt-8">
-          Hover to pause
+          Hover to pause · Touch &amp; drag to scroll
         </p>
       </div>
-      <style>{`
-        @media (max-width: 639px) {
-          .testimonial-card { width: min(80vw, 280px) !important; padding: 18px 16px !important; }
-        }
-      `}</style>
     </section>
   )
 }
