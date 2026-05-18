@@ -1,17 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Dark spiritual background circle -->
-  <circle cx="32" cy="32" r="32" fill="#0a0f1e"/>
-  <!-- Gold glow ring -->
-  <circle cx="32" cy="32" r="30" fill="none" stroke="#f59e0b" stroke-width="1.2" opacity="0.5"/>
-  <!-- Om symbol in gold -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Dark navy background -->
+  <rect width="64" height="64" rx="14" fill="#0a0f1e"/>
+  <!-- Subtle gold border -->
+  <rect width="64" height="64" rx="14" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.4"/>
+  <!-- OM symbol in gold -->
   <text
     x="32"
-    y="44"
+    y="46"
+    text-anchor="middle"
     font-family="serif"
-    font-size="34"
+    font-size="38"
     font-weight="bold"
     fill="#f59e0b"
-    text-anchor="middle"
-    dominant-baseline="auto"
   >ॐ</text>
 </svg>
