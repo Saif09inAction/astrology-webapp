@@ -36,9 +36,7 @@ export default defineConfig({
       },
     },
 
-    // Minification settings
     target: 'es2020',
-    minify: 'esbuild',
 
     // CSS code splitting — each chunk gets only CSS it needs
     cssCodeSplit: true,
