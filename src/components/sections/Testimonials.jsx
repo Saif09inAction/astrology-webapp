@@ -76,8 +76,13 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative overflow-hidden" style={{ paddingTop: 'clamp(8rem,8vw,8rem)', paddingBottom: 'clamp(8rem,8vw,8rem)' }}
-      style={{ background: 'linear-gradient(180deg, rgba(10,15,35,1) 0%, rgba(3,7,18,1) 100%)' }}
+      aria-label="Client testimonials"
+      className="relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, rgba(10,15,35,1) 0%, rgba(3,7,18,1) 100%)',
+        paddingTop: 'clamp(4rem,10vw,8rem)',
+        paddingBottom: 'clamp(4rem,10vw,8rem)',
+      }}
     >
       <GlowOrb color="purple" size={600} top="50%" left="50%" opacity={0.05} />
 
@@ -145,7 +150,7 @@ export default function Testimonials() {
       </div>
       <style>{`
         @media (max-width: 639px) {
-          .testimonial-card { width: 240px !important; padding: 16px !important; }
+          .testimonial-card { width: min(80vw, 280px) !important; padding: 18px 16px !important; }
         }
       `}</style>
     </section>

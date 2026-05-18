@@ -93,7 +93,7 @@ export default function Hero() {
       ═══════════════════════════════════════════ */}
       <div
         className="site-container relative"
-        style={{ zIndex: 10, paddingTop: 'clamp(80px,12vw,140px)', paddingBottom: 'clamp(50px,8vw,100px)' }}
+        style={{ zIndex: 10, paddingTop: 'clamp(72px,12vw,140px)', paddingBottom: 'clamp(40px,8vw,100px)' }}
       >
 
         {/*
@@ -171,7 +171,7 @@ export default function Hero() {
             {/* Subheading */}
             <motion.p
               {...fadeUp(0.22)}
-              className="hero-left-center"
+              className="hero-left-center hero-subhead"
               style={{
                 fontFamily: "'Poppins',sans-serif",
                 fontSize: 'clamp(14px,1.5vw,16px)',
@@ -186,6 +186,24 @@ export default function Hero() {
               for love, marriage, and career.{' '}
               <span style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>
                 No payment until you see results.
+              </span>
+            </motion.p>
+
+            {/* Mobile-only trust line (replaces verbose subheading) */}
+            <motion.p
+              {...fadeUp(0.2)}
+              className="hero-left-center"
+              style={{
+                fontFamily: "'Poppins',sans-serif",
+                fontSize: 13,
+                color: 'rgba(255,255,255,0.55)',
+                marginBottom: 16,
+                lineHeight: 1.6,
+              }}
+            >
+              <span className="md:hidden block">
+                5,000+ lives transformed · 50+ countries ·{' '}
+                <span style={{ color: 'rgba(251,191,36,0.85)', fontWeight: 600 }}>Pay after results</span>
               </span>
             </motion.p>
 
@@ -230,9 +248,8 @@ export default function Hero() {
             {/* CTA buttons */}
             <motion.div
               {...fadeUp(0.46)}
-              className="hero-left-center"
+              className="hero-left-center hero-cta-wrap"
               style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 36 }}
-              className="hero-cta-wrap"
             >
               <Button
                 as="a"
@@ -475,9 +492,7 @@ export default function Hero() {
 
         /* Desktop: 2-column grid — text LEFT, image RIGHT */
         @media (min-width: 1024px) {
-          .hero-grid {
-            grid-template-columns: 1fr 400px !important;
-          }
+          .hero-grid { grid-template-columns: 1fr 400px !important; }
           .hero-left  { align-items: flex-start !important; }
           .hero-left-center { align-self: auto !important; text-align: left !important; }
           .hero-right { justify-content: flex-end !important; }
@@ -492,18 +507,64 @@ export default function Hero() {
           .hero-left-center { align-self: center !important; text-align: center !important; }
         }
 
-        /* Mobile */
+          /* ══════════════════════════════════════════════════
+           MOBILE — Cinematic premium spiritual experience
+        ══════════════════════════════════════════════════ */
         @media (max-width: 639px) {
-          .hero-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
-          .hero-right { order: -1; }
-          .hero-right > div { max-width: 240px !important; transform: none !important; }
-          .hero-left  { align-items: center !important; text-align: center !important; }
+
+          /* Grid: single column, tighter gap */
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+            gap: 0 !important;
+          }
+
+          /* Image comes FIRST — large and cinematic */
+          .hero-right { order: -1; width: 100%; display: flex; justify-content: center; margin-bottom: 20px; }
+          .hero-right > div {
+            max-width: min(92vw, 380px) !important;
+            width:     min(92vw, 380px) !important;
+            transform: none !important;
+          }
+          /* Stronger mobile glow */
+          .hero-right > div > div:first-child {
+            filter: blur(20px) !important;
+            background: radial-gradient(ellipse at 50% 40%, rgba(109,40,217,0.35) 0%, rgba(245,158,11,0.15) 50%, transparent 75%) !important;
+          }
+
+          /* Text block below image — centered */
+          .hero-left { align-items: center !important; text-align: center !important; }
           .hero-left-center { align-self: center !important; text-align: center !important; }
+
+          /* Hide floating chips — they overflow */
           .hero-chip { display: none !important; }
-          .hero-h1 { font-size: clamp(1.75rem, 7vw, 2.2rem) !important; }
-          .hero-cta-wrap { flex-direction: column !important; width: 100% !important; }
-          .hero-cta-wrap > * { width: 100% !important; justify-content: center !important; }
-          .hero-stats { max-width: 100% !important; }
+
+          /* Larger, more cinematic headline */
+          .hero-h1 { font-size: clamp(2.2rem, 9.5vw, 3rem) !important; line-height: 1.1 !important; }
+
+          /* Hide verbose subheading on mobile to reduce clutter */
+          .hero-subhead { display: none !important; }
+
+          /* Full-width stacked premium CTA buttons */
+          .hero-cta-wrap {
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 10px !important;
+            margin-bottom: 24px !important;
+          }
+          .hero-cta-wrap > * {
+            width: 100% !important;
+            justify-content: center !important;
+            font-size: 15px !important;
+            padding: 17px 20px !important;
+            border-radius: 16px !important;
+          }
+
+          /* Stats bar — compact 4-across */
+          .hero-stats {
+            max-width: 100% !important;
+            border-top: 1px solid rgba(255,255,255,0.06) !important;
+            padding-top: 16px !important;
+          }
         }
       `}</style>
     </section>

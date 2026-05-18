@@ -51,8 +51,8 @@ export default function WhyChooseUs() {
           </p>
         </motion.div>
 
-        {/* Reason cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8" style={{ marginBottom: '56px' }}>
+        {/* Reason cards — desktop 3-col grid, hidden on mobile */}
+        <div className="hidden md:grid md:grid-cols-3 gap-8" style={{ marginBottom: '56px' }}>
           {reasons.map(({ icon: Icon, title, desc, accent }, i) => (
             <motion.div
               key={title}
@@ -60,30 +60,51 @@ export default function WhyChooseUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: i * 0.07 }}
-              className="group relative rounded-2xl p-5 md:p-8 overflow-hidden transition-all duration-300 hover:-translate-y-1"
+              className="group relative rounded-2xl p-8 overflow-hidden transition-all duration-300 hover:-translate-y-1"
               style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)' }}
             >
-              {/* Top accent line on hover */}
-              <div
-                className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
-              />
-              {/* Hover glow */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{ background: `radial-gradient(ellipse at 50% 0%, ${accent}10 0%, transparent 65%)` }}
-              />
-
-              {/* Icon */}
-              <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center mb-3 md:mb-5 relative z-10 transition-transform duration-300 group-hover:scale-110"
-                style={{ background: `${accent}12`, border: `1px solid ${accent}25` }}
-              >
+              <div className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }} />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{ background: `radial-gradient(ellipse at 50% 0%, ${accent}10 0%, transparent 65%)` }} />
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 relative z-10 transition-transform duration-300 group-hover:scale-110"
+                style={{ background: `${accent}12`, border: `1px solid ${accent}25` }}>
                 <Icon size={20} style={{ color: accent }} />
               </div>
+              <h3 className="font-cinzel text-[16px] font-bold text-white mb-2 relative z-10">{title}</h3>
+              <p className="font-poppins text-[13px] text-white/50 leading-relaxed relative z-10">{desc}</p>
+            </motion.div>
+          ))}
+        </div>
 
-              <h3 className="font-cinzel text-[13px] md:text-[16px] font-bold text-white mb-1 md:mb-2 relative z-10">{title}</h3>
-              <p className="font-poppins text-[11px] md:text-[13px] text-white/50 leading-relaxed relative z-10 hidden sm:block">{desc}</p>
+        {/* Reason cards — mobile-only horizontal premium list */}
+        <div className="md:hidden flex flex-col" style={{ gap: '10px', marginBottom: '36px' }}>
+          {reasons.map(({ icon: Icon, title, desc, accent }, i) => (
+            <motion.div
+              key={title}
+              initial={{ opacity: 0, x: -16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              className="flex items-center gap-4 rounded-2xl"
+              style={{
+                background: 'rgba(255,255,255,0.03)',
+                border: `1px solid ${accent}18`,
+                padding: '14px 16px',
+              }}
+            >
+              {/* Left accent bar */}
+              <div style={{ width: 3, height: 36, borderRadius: 2, background: accent, flexShrink: 0 }} />
+              {/* Icon */}
+              <div className="rounded-xl flex items-center justify-center shrink-0"
+                style={{ width: 42, height: 42, background: `${accent}14`, border: `1px solid ${accent}28` }}>
+                <Icon size={19} style={{ color: accent }} />
+              </div>
+              {/* Text */}
+              <div className="flex-1 min-w-0">
+                <p className="font-cinzel text-[13px] font-bold text-white leading-tight">{title}</p>
+                <p className="font-poppins text-[11px] text-white/45 mt-0.5 leading-snug">{desc}</p>
+              </div>
             </motion.div>
           ))}
         </div>

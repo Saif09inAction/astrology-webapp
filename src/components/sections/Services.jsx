@@ -86,8 +86,8 @@ function FeaturedCard({ service, delay }) {
       style={{
         background: 'rgba(255,255,255,0.025)',
         border: `1px solid ${accent}30`,
-        padding: '36px 32px',
-        minHeight: 220,
+        padding: 'clamp(20px,5vw,36px) clamp(18px,4vw,32px)',
+        minHeight: 'clamp(160px,40vw,220px)',
       }}
     >
       {/* Background glow */}
@@ -236,17 +236,58 @@ export default function Services() {
           </p>
         </motion.div>
 
-        {/* Featured cards — 2 col on md+ */}
-        <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '24px', marginBottom: '24px' }}>
+        {/* Featured cards — 1 col on mobile, 2 col on md+ */}
+        <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '16px', marginBottom: '16px' }}>
           {featured.map((s, i) => (
             <FeaturedCard key={s.title} service={s} delay={i * 0.1} />
           ))}
         </div>
 
-        {/* Regular cards — 2 col on sm, 3 col on md+ */}
-        <div className="grid grid-cols-2 md:grid-cols-3" style={{ gap: '24px' }}>
+        {/* Regular cards — 1 col on mobile (horizontal), 3 col on md+ */}
+        <div className="hidden md:grid md:grid-cols-3" style={{ gap: '24px' }}>
           {regular.map((s, i) => (
             <ServiceCard key={s.title} service={s} delay={0.2 + i * 0.07} />
+          ))}
+        </div>
+
+        {/* Mobile-only: horizontal list cards */}
+        <div className="md:hidden flex flex-col" style={{ gap: '10px' }}>
+          {regular.map(({ Icon, title, desc, accent }, i) => (
+            <motion.a
+              key={title}
+              href={WHATSAPP_CONSULT}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, x: -16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              className="flex items-center gap-4 rounded-2xl"
+              style={{
+                background: 'rgba(255,255,255,0.025)',
+                border: `1px solid ${accent}20`,
+                padding: '16px 18px',
+              }}
+            >
+              {/* Accent left bar */}
+              <div style={{ width: 3, height: 40, borderRadius: 2, background: accent, flexShrink: 0 }} />
+              {/* Icon */}
+              <div
+                className="rounded-xl flex items-center justify-center shrink-0"
+                style={{ width: 44, height: 44, background: `${accent}15`, border: `1px solid ${accent}30`, color: accent }}
+              >
+                <Icon size={20} />
+              </div>
+              {/* Text */}
+              <div className="flex-1 min-w-0">
+                <p className="font-cinzel font-bold text-white text-[13px] leading-tight">{title}</p>
+                <p className="font-poppins text-[11px] text-white/40 mt-0.5 leading-snug truncate">{desc}</p>
+              </div>
+              {/* Arrow */}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 opacity-30">
+                <path d="M6 4l4 4-4 4" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </motion.a>
           ))}
         </div>
 

@@ -44,13 +44,14 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-center font-cinzel text-3xl md:text-4xl font-bold text-white mb-14"
+          className="text-center font-cinzel text-3xl md:text-4xl font-bold text-white"
+          style={{ marginBottom: 'clamp(24px,5vw,56px)' }}
         >
           Ancient Wisdom,{' '}
           <span className="text-gradient-gold">Modern Clarity</span>
         </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-8 lg:gap-10 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] items-stretch" style={{ gap: 'clamp(20px,4vw,40px)' }}>
 
           {/* ── LEFT: Image column ── */}
           <motion.div
@@ -73,7 +74,7 @@ export default function About() {
                 width="420"
                 height="560"
                 className="w-full h-full object-cover object-center"
-                style={{ minHeight: 480 }}
+              style={{ minHeight: 'clamp(260px,60vw,480px)' }}
               />
 
               {/* Bottom gradient */}

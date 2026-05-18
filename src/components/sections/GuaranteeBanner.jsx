@@ -153,23 +153,35 @@ export default function GuaranteeBanner() {
           </div>
         </div>
 
-        {/* ── Mobile: simple 2×2 grid ── */}
-        <div className="lg:hidden site-container grid grid-cols-2 gap-4">
-          {items.map(({ icon: Icon, headline, sub, accent }) => (
-            <div
+        {/* ── Mobile: premium horizontal list ── */}
+        <div className="lg:hidden site-container flex flex-col" style={{ gap: 10 }}>
+          {items.map(({ icon: Icon, headline, sub, accent }, i) => (
+            <motion.div
               key={headline}
-              className="group relative text-center px-4 py-6 rounded-xl border border-white/6"
-              style={{ background: 'rgba(255,255,255,0.02)' }}
+              initial={{ opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: i * 0.06 }}
+              className="flex items-center gap-4 rounded-2xl"
+              style={{
+                background: 'rgba(255,255,255,0.025)',
+                border: `1px solid ${accent}18`,
+                padding: '14px 16px',
+              }}
             >
-              <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center mx-auto mb-4"
-                style={{ background: `${accent}14`, border: `1px solid ${accent}22` }}
-              >
-                <Icon size={18} style={{ color: accent }} />
+              {/* Left accent bar */}
+              <div style={{ width: 3, height: 40, borderRadius: 2, background: accent, flexShrink: 0 }} />
+              {/* Icon */}
+              <div className="rounded-xl flex items-center justify-center shrink-0"
+                style={{ width: 44, height: 44, background: `${accent}12`, border: `1px solid ${accent}25` }}>
+                <Icon size={20} style={{ color: accent }} />
               </div>
-              <h3 className="font-cinzel text-sm font-bold mb-1.5" style={{ color: accent }}>{headline}</h3>
-              <p className="font-poppins text-[11px] text-white/45 leading-relaxed">{sub}</p>
-            </div>
+              {/* Text */}
+              <div className="flex-1 min-w-0">
+                <p className="font-cinzel text-[13px] font-bold leading-tight" style={{ color: accent }}>{headline}</p>
+                <p className="font-poppins text-[11px] text-white/40 mt-0.5 leading-snug">{sub}</p>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

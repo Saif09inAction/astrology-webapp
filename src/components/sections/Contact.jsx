@@ -42,7 +42,7 @@ export default function Contact() {
     background: 'rgba(255,255,255,0.04)',
     border: '1px solid rgba(255,255,255,0.1)',
     borderRadius: '12px',
-    padding: '7px 10px',
+    padding: 'clamp(9px,2vw,10px) clamp(12px,3vw,14px)',
     color: '#fff',
     fontSize: '14px',
     fontFamily: 'Poppins, sans-serif',

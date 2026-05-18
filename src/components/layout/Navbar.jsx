@@ -107,83 +107,125 @@ export default function Navbar() {
 
       {/* ── Mobile full-screen menu ── */}
       {open && (
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.22, ease: 'easeOut' }}
           className="lg:hidden fixed inset-0 z-40 flex flex-col"
           style={{
             top: 64,
-            background: 'rgba(3,7,18,0.99)',
-            backdropFilter: 'blur(24px)',
+            background: 'linear-gradient(180deg, rgba(3,7,18,0.99) 0%, rgba(8,12,30,0.99) 100%)',
+            backdropFilter: 'blur(28px)',
+            WebkitBackdropFilter: 'blur(28px)',
           }}
         >
           {/* Top gold accent line */}
-          <div style={{ height: 2, background: 'linear-gradient(90deg,transparent,rgba(245,158,11,0.6),transparent)' }} />
+          <div style={{ height: 1.5, background: 'linear-gradient(90deg,transparent,rgba(245,158,11,0.7),transparent)' }} />
 
-          <div className="flex flex-col flex-1 overflow-y-auto px-5 pt-6 pb-8">
+          {/* Ambient glow decoration */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
+            style={{ width: 300, height: 200, background: 'radial-gradient(ellipse at 50% 0%, rgba(109,40,217,0.12) 0%, transparent 70%)', }} />
 
-            {/* Nav links */}
-            <nav className="flex flex-col gap-1 mb-8">
+          <div className="flex flex-col flex-1 overflow-y-auto px-5 pt-6 pb-8 relative z-10">
+
+            {/* OM header decoration */}
+            <div className="flex items-center justify-center mb-6">
+              <div style={{ height: 1, flex: 1, background: 'rgba(255,255,255,0.05)' }} />
+              <span className="font-cinzel text-2xl mx-4" style={{ color: 'rgba(245,158,11,0.4)' }}>ॐ</span>
+              <div style={{ height: 1, flex: 1, background: 'rgba(255,255,255,0.05)' }} />
+            </div>
+
+            {/* Nav links with stagger */}
+            <nav className="flex flex-col gap-2 mb-8" aria-label="Mobile navigation">
               {navLinks.map(({ label, href, icon: Icon }, i) => (
-                <button
+                <motion.button
                   key={label}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.2, delay: i * 0.04 }}
                   onClick={() => scrollTo(href)}
-                  className="flex items-center gap-4 w-full text-left px-4 py-4 rounded-2xl transition-all duration-200 active:scale-[0.98]"
+                  className="flex items-center gap-4 w-full text-left px-4 py-3.5 rounded-2xl transition-all duration-200 active:scale-[0.97]"
                   style={{
-                    background: 'rgba(255,255,255,0.03)',
+                    background: 'rgba(255,255,255,0.025)',
                     border: '1px solid rgba(255,255,255,0.05)',
                   }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(245,158,11,0.07)'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}
+                  onTouchStart={e => e.currentTarget.style.background = 'rgba(245,158,11,0.08)'}
+                  onTouchEnd={e => setTimeout(() => { e.currentTarget.style.background = 'rgba(255,255,255,0.025)' }, 200)}
                 >
                   {/* Icon box */}
                   <div
                     className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: i % 2 === 0 ? 'rgba(245,158,11,0.12)' : 'rgba(139,92,246,0.12)' }}
+                    style={{
+                      background: i % 2 === 0 ? 'rgba(245,158,11,0.1)' : 'rgba(139,92,246,0.1)',
+                      border: `1px solid ${i % 2 === 0 ? 'rgba(245,158,11,0.2)' : 'rgba(139,92,246,0.2)'}`,
+                    }}
                   >
-                    <Icon size={16} style={{ color: i % 2 === 0 ? '#fbbf24' : '#a78bfa' }} />
+                    <Icon size={15} style={{ color: i % 2 === 0 ? '#fbbf24' : '#a78bfa' }} />
                   </div>
-                  <span className="font-poppins text-[16px] font-medium text-white/80">{label}</span>
+                  <span className="font-poppins text-[15px] font-medium text-white/80 flex-1">{label}</span>
                   {/* Arrow */}
-                  <svg className="ml-auto" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M6 4l4 4-4 4" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="opacity-20">
+                    <path d="M6 4l4 4-4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </button>
+                </motion.button>
               ))}
             </nav>
 
             {/* Divider */}
-            <div className="mb-6" style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+            <div className="mb-5" style={{ height: 1, background: 'linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent)' }} />
 
             {/* CTA buttons */}
-            <div className="flex flex-col gap-3">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, delay: 0.28 }}
+              className="flex flex-col gap-3"
+            >
               <a
                 href={WHATSAPP_CONSULT}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
-                className="w-full flex items-center justify-center gap-3 font-cinzel font-bold text-[15px] py-4 rounded-2xl transition-all active:scale-[0.98]"
-                style={{ background: 'linear-gradient(135deg,#fcd34d,#f59e0b)', color: '#0a0f1e', boxShadow: '0 8px 30px rgba(245,158,11,0.3)' }}
+                className="w-full flex items-center justify-center gap-3 font-cinzel font-bold text-[15px] py-4 rounded-2xl transition-all active:scale-[0.97]"
+                style={{
+                  background: 'linear-gradient(135deg,#fcd34d 0%,#f59e0b 100%)',
+                  color: '#0a0f1e',
+                  boxShadow: '0 8px 32px rgba(245,158,11,0.35), 0 2px 8px rgba(0,0,0,0.3)',
+                }}
               >
-                <WhatsAppIcon size={20} />
+                <WhatsAppIcon size={19} />
                 Free WhatsApp Consultation
               </a>
               <a
                 href={PHONE_TEL}
                 onClick={() => setOpen(false)}
-                className="w-full flex items-center justify-center gap-3 font-poppins font-medium text-[15px] py-4 rounded-2xl transition-all active:scale-[0.98]"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(245,158,11,0.25)', color: '#fbbf24' }}
+                className="w-full flex items-center justify-center gap-3 font-poppins font-medium text-[14px] py-3.5 rounded-2xl transition-all active:scale-[0.97]"
+                style={{
+                  background: 'rgba(245,158,11,0.05)',
+                  border: '1px solid rgba(245,158,11,0.2)',
+                  color: '#fbbf24',
+                }}
               >
-                <PhoneIcon size={18} />
+                <PhoneIcon size={17} />
                 {PHONE_DISPLAY}
               </a>
-            </div>
+            </motion.div>
 
             {/* Trust badge */}
-            <div className="mt-6 flex items-center justify-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400" style={{ boxShadow: '0 0 6px rgba(52,211,153,0.8)', animation: 'pulse 2s infinite' }} />
-              <p className="font-poppins text-[12px] text-white/30">Available 24×7 · Confidential · Pay After Results</p>
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.38 }}
+              className="mt-6 flex items-center justify-center gap-2"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                style={{ boxShadow: '0 0 6px rgba(52,211,153,0.9)', animation: 'pulse 2s infinite' }} />
+              <p className="font-poppins text-[11px] text-white/25 tracking-wide">
+                Available 24×7 · Confidential · Pay After Results
+              </p>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       )}
     </>
   )

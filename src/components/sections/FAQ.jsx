@@ -48,15 +48,34 @@ export default function FAQ() {
 
       <div className="site-container relative z-10">
 
+        {/* Mobile-only header — clean centered */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="lg:hidden text-center"
+          style={{ marginBottom: 'clamp(24px,6vw,40px)' }}
+        >
+          <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-3">
+            ॐ · जिज्ञासा · Common Questions
+          </p>
+          <h2 className="font-cinzel text-3xl font-bold text-white leading-tight mb-3">
+            Everything You <span className="text-gradient-gold">Need to Know</span>
+          </h2>
+          <p className="font-poppins text-white/40 text-sm leading-relaxed">
+            Transparent answers before you reach out.
+          </p>
+        </motion.div>
+
         {/* Two-column layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-10 lg:gap-20 items-start">
 
-          {/* Left — sticky header */}
+          {/* Left — sticky header (hidden on mobile, visible on lg+) */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:sticky lg:top-28 text-center lg:text-left"
+            className="hidden lg:block lg:sticky lg:top-28 text-left"
           >
             <p className="font-cinzel text-[10px] tracking-[0.35em] text-gold-400/50 uppercase mb-4">
               ॐ · जिज्ञासा · Common Questions
