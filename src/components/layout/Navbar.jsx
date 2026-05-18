@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { Menu, X, Home, Info, Sparkles, Star, HelpCircle, Phone as PhoneIcon } from 'lucide-react'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
-import { PANDIT_NAME, PHONE_TEL, PHONE_DISPLAY, WHATSAPP_CONSULT } from '../../constants'
+import { useApp } from '../../context/AppContext'
 
 const navLinks = [
   { label: 'Home',         href: '#hero',         icon: Home },
@@ -15,6 +15,10 @@ const navLinks = [
 ]
 
 export default function Navbar() {
+  const { settings, openModal } = useApp()
+  const { panditName, phoneDisplay, phoneTel, whatsappBase } = settings
+  const waConsult = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I need your consultation.`)}`
+
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen]         = useState(false)
 
@@ -59,7 +63,7 @@ export default function Navbar() {
               <span className="font-cinzel text-gold-400 text-base md:text-xl font-bold">ॐ</span>
             </div>
             <div className="leading-none">
-              <p className="font-cinzel text-[15px] md:text-[20px] font-bold text-white">{PANDIT_NAME}</p>
+              <p className="font-cinzel text-[15px] md:text-[20px] font-bold text-white">{panditName}</p>
               <p className="font-poppins text-[10px] md:text-[13px] tracking-[0.22em] text-gold-400/60 uppercase mt-1">Vedic Astrology</p>
             </div>
           </button>
@@ -82,8 +86,8 @@ export default function Navbar() {
 
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3 z-10">
-            <Button as="a" variant="ghost" nav href={PHONE_TEL}>Call Now</Button>
-            <Button as="a" variant="primary" nav href={WHATSAPP_CONSULT} target="_blank" rel="noopener noreferrer">
+            <Button as="a" variant="ghost" nav href={phoneTel}>Call Now</Button>
+            <Button as="a" variant="primary" nav href={waConsult} target="_blank" rel="noopener noreferrer">
               Free Consultation
             </Button>
           </div>
@@ -182,7 +186,7 @@ export default function Navbar() {
               className="flex flex-col gap-3"
             >
               <a
-                href={WHATSAPP_CONSULT}
+                href={waConsult}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
@@ -197,7 +201,7 @@ export default function Navbar() {
                 Free WhatsApp Consultation
               </a>
               <a
-                href={PHONE_TEL}
+                href={phoneTel}
                 onClick={() => setOpen(false)}
                 className="w-full flex items-center justify-center gap-3 font-poppins font-medium text-[14px] py-3.5 rounded-2xl transition-all active:scale-[0.97]"
                 style={{
@@ -207,7 +211,7 @@ export default function Navbar() {
                 }}
               >
                 <PhoneIcon size={17} />
-                {PHONE_DISPLAY}
+                {phoneDisplay}
               </a>
             </motion.div>
 

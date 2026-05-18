@@ -1,13 +1,12 @@
 import { motion } from 'framer-motion'
 import { Phone } from 'lucide-react'
 import { WhatsAppIcon } from './Icons'
-import { PHONE_TEL } from '../../constants'
 import { useApp } from '../../context/AppContext'
 
 const spring = { type: 'spring', stiffness: 220, damping: 18 }
 
 export default function FloatingButtons() {
-  const { openModal } = useApp()
+  const { openModal, settings } = useApp()
 
   return (
     <div className="fixed bottom-6 right-4 z-50 flex flex-col gap-3">
@@ -26,7 +25,7 @@ export default function FloatingButtons() {
 
       {/* Call FAB */}
       <motion.a
-        href={PHONE_TEL}
+        href={settings.phoneTel}
         title="Call Now"
         className="btn-fab btn-fab-call"
         initial={{ scale: 0, opacity: 0 }}

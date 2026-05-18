@@ -1,12 +1,16 @@
 import { Phone, Clock, MapPin } from 'lucide-react'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
-import { PANDIT_NAME, PHONE_DISPLAY, PHONE_TEL, WHATSAPP_CONSULT } from '../../constants'
+import { useApp } from '../../context/AppContext'
 
 const quickLinks = ['About', 'Services', 'Testimonials', 'FAQ', 'Contact']
 const services = ['Love Problem Solution', 'Ex Love Back', 'Marriage Consultation', 'Kundli Matching', 'Career Guidance', 'Business Problems']
 
 export default function Footer() {
+  const { settings, openModal } = useApp()
+  const { panditName, phoneDisplay, phoneTel, whatsappBase } = settings
+  const waConsult = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I need your consultation.`)}`
+
   const scrollTo = (id) => {
     const el = document.getElementById(id.toLowerCase().replace(/ /g, '-'))
       || document.getElementById(id.toLowerCase())
@@ -26,7 +30,7 @@ export default function Footer() {
               <span className="font-cinzel text-gold-400 text-xs font-bold">ॐ</span>
             </div>
             <div>
-              <p className="font-cinzel text-[13px] font-bold text-white">{PANDIT_NAME}</p>
+              <p className="font-cinzel text-[13px] font-bold text-white">{panditName}</p>
               <p className="font-poppins text-[9px] tracking-[0.2em] text-gold-400/60 uppercase">Vedic Astrology</p>
             </div>
           </div>
@@ -76,7 +80,7 @@ export default function Footer() {
             <li className="flex items-start gap-3">
               <Phone size={13} className="text-gold-400 mt-0.5 shrink-0" />
               <div>
-                <a href={PHONE_TEL} className="font-poppins text-[13px] text-white/70 hover:text-white transition-colors">{PHONE_DISPLAY}</a>
+                <a href={phoneTel} className="font-poppins text-[13px] text-white/70 hover:text-white transition-colors">{phoneDisplay}</a>
                 <p className="font-poppins text-[11px] text-white/30 mt-0.5">Call or WhatsApp</p>
               </div>
             </li>
@@ -96,7 +100,7 @@ export default function Footer() {
           <Button
             as="a"
             variant="primary"
-            href={WHATSAPP_CONSULT}
+            href={waConsult}
             target="_blank"
             rel="noopener noreferrer"
             icon={<WhatsAppIcon size={15} />}
@@ -120,7 +124,7 @@ export default function Footer() {
 
       <div className="border-t border-white/5 py-4">
         <div className="site-container flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="font-poppins text-[11px] text-white/20">© {new Date().getFullYear()} {PANDIT_NAME} · All rights reserved</p>
+          <p className="font-poppins text-[11px] text-white/20">© {new Date().getFullYear()} {panditName} · All rights reserved</p>
           <p className="font-poppins text-[11px] text-white/15">For guidance purposes only · Results may vary</p>
         </div>
       </div>

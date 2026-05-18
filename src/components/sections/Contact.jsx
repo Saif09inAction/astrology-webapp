@@ -4,7 +4,7 @@ import { Send, CheckCircle, Phone, Clock, Lock } from 'lucide-react'
 import GlowOrb from '../ui/GlowOrb'
 import { WhatsAppIcon } from '../ui/Icons'
 import { submitLead } from '../../firebase/firestore'
-import { PANDIT_NAME, PHONE_DISPLAY, PHONE_TEL, WHATSAPP_BASE, WHATSAPP_CONSULT } from '../../constants'
+import { useApp } from '../../context/AppContext'
 
 const problemTypes = [
   'Love Problem Solution', 'Ex Love Back', 'Marriage Consultation',
@@ -20,6 +20,13 @@ const promises = [
 ]
 
 export default function Contact() {
+  const { settings } = useApp()
+  const { panditName, phoneDisplay, phoneTel, whatsappBase } = settings
+  const WHATSAPP_BASE    = whatsappBase
+  const WHATSAPP_CONSULT = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I need your consultation.`)}`
+  const PHONE_DISPLAY    = phoneDisplay
+  const PHONE_TEL        = phoneTel
+
   const [form, setForm] = useState({ name: '', phone: '', problem: '', message: '' })
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -33,7 +40,7 @@ export default function Contact() {
     setError(''); setLoading(true)
     try { await submitLead(form) } catch {}
     setSuccess(true); setLoading(false)
-    const msg = encodeURIComponent(`Hello ${PANDIT_NAME}, my name is ${form.name}. I need help with: ${form.problem}.${form.message ? ' ' + form.message : ''}`)
+    const msg = encodeURIComponent(`Hello ${panditName}, my name is ${form.name}. I need help with: ${form.problem}.${form.message ? ' ' + form.message : ''}`)
     setTimeout(() => window.open(`${WHATSAPP_BASE}?text=${msg}`, '_blank'), 900)
   }
 
@@ -182,7 +189,7 @@ export default function Contact() {
                   </motion.div>
                   <h3 className="font-cinzel text-2xl font-bold text-white mb-3">Inquiry Sent!</h3>
                   <p className="font-poppins text-sm text-white/50 leading-relaxed mb-8 max-w-xs">
-                    WhatsApp is opening to connect you directly with {PANDIT_NAME}.
+                    WhatsApp is opening to connect you directly with {panditName}.
                   </p>
                   <button
                     onClick={() => { setSuccess(false); setForm({ name: '', phone: '', problem: '', message: '' }) }}

@@ -3,7 +3,6 @@ import { Phone, Clock, Infinity, ShieldCheck } from 'lucide-react'
 import StarField from '../ui/StarField'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
-import { PANDIT_NAME, PHONE_DISPLAY, PHONE_TEL } from '../../constants'
 import { useApp } from '../../context/AppContext'
 
 /* ─── Stagger helper ─── */
@@ -27,7 +26,8 @@ const stats = [
 ]
 
 export default function Hero() {
-  const { openModal } = useApp()
+  const { openModal, settings } = useApp()
+  const { panditName, phoneDisplay, phoneTel } = settings
   return (
     <section
       id="hero"
@@ -183,7 +183,7 @@ export default function Hero() {
                 maxWidth: 500,
               }}
             >
-              {PANDIT_NAME} has transformed over 5,000 lives across 50+ countries —
+              {panditName} has transformed over 5,000 lives across 50+ countries —
               through ancient Vedic wisdom, precise birth chart readings, and real solutions
               for love, marriage, and career.{' '}
               <span style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>
@@ -264,10 +264,10 @@ export default function Hero() {
               <Button
                 as="a"
                 variant="secondary"
-                href={PHONE_TEL}
+                href={phoneTel}
                 icon={<Phone size={16} />}
               >
-                {PHONE_DISPLAY}
+                {phoneDisplay}
               </Button>
             </motion.div>
 
@@ -347,7 +347,7 @@ export default function Hero() {
                 {/* Actual image */}
                 <img
                   src="/panditji.png"
-                  alt={`${PANDIT_NAME} – India's Most Trusted Vedic Astrologer`}
+                  alt={`${panditName} – India's Most Trusted Vedic Astrologer`}
                   width="460"
                   height="615"
                   fetchPriority="high"
@@ -372,7 +372,7 @@ export default function Hero() {
                     background: 'rgba(245,158,11,0.05)',
                     fontSize: 32,
                   }}>🕉️</div>
-                  <p style={{ fontFamily: "'Cinzel',serif", color: '#fbbf24', fontSize: 15, fontWeight: 700 }}>{PANDIT_NAME}</p>
+                  <p style={{ fontFamily: "'Cinzel',serif", color: '#fbbf24', fontSize: 15, fontWeight: 700 }}>{panditName}</p>
                   <p style={{ fontFamily: "'Poppins',sans-serif", color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>Vedic Astrologer · 15+ Years</p>
                   <p style={{ fontFamily: "'Poppins',sans-serif", color: 'rgba(255,255,255,0.15)', fontSize: 10, marginTop: 8, textAlign: 'center', lineHeight: 1.5, padding: '0 20px' }}>
                     Drop panditji.jpg into /public folder
@@ -385,7 +385,7 @@ export default function Hero() {
                   padding: '52px 22px 20px',
                   background: 'linear-gradient(to top, rgba(3,7,18,0.96) 0%, rgba(3,7,18,0.4) 60%, transparent 100%)',
                 }}>
-                  <p style={{ fontFamily: "'Cinzel',serif", color: '#fff', fontSize: 14, fontWeight: 700 }}>{PANDIT_NAME}</p>
+                  <p style={{ fontFamily: "'Cinzel',serif", color: '#fff', fontSize: 14, fontWeight: 700 }}>{panditName}</p>
                   <p style={{ fontFamily: "'Poppins',sans-serif", color: 'rgba(251,191,36,0.7)', fontSize: 11, marginTop: 4, letterSpacing: '0.04em' }}>
                     Vedic Astrologer · 15+ Years Experience
                   </p>

@@ -4,7 +4,7 @@ import { Plus, Minus } from 'lucide-react'
 import GlowOrb from '../ui/GlowOrb'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
-import { WHATSAPP_FREE } from '../../constants'
+import { useApp } from '../../context/AppContext'
 
 const faqs = [
   {
@@ -34,6 +34,9 @@ const faqs = [
 ]
 
 export default function FAQ() {
+  const { settings } = useApp()
+  const { panditName, whatsappBase } = settings
+  const WHATSAPP_FREE = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I want a FREE consultation.`)}`
   const [open, setOpen] = useState(0)
 
   return (

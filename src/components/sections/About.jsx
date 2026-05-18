@@ -3,7 +3,7 @@ import { Star, Shield, Heart, Eye, Clock3, Globe2 } from 'lucide-react'
 import GlowOrb from '../ui/GlowOrb'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
-import { PANDIT_NAME, WHATSAPP_CONSULT } from '../../constants'
+import { useApp } from '../../context/AppContext'
 
 const expertise = [
   { icon: Star,   label: 'Vedic Jyotish & Kundli Reading' },
@@ -21,6 +21,9 @@ const stats = [
 ]
 
 export default function About() {
+  const { settings } = useApp()
+  const { panditName, whatsappBase } = settings
+  const WHATSAPP_CONSULT = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I need your consultation.`)}`
   return (
     <section id="about" aria-label="About Dheeraj Shastri Ji" className="relative section-padding overflow-hidden"
       style={{ background: 'linear-gradient(180deg, rgba(3,7,18,1) 0%, rgba(10,15,35,1) 100%)' }}
@@ -68,7 +71,7 @@ export default function About() {
             >
               <img
                 src="/panditji2.jpg"
-                alt={`${PANDIT_NAME} – Vedic Astrologer with 15+ years of experience`}
+                alt={`${panditName} – Vedic Astrologer with 15+ years of experience`}
                 loading="lazy"
                 decoding="async"
                 width="420"
@@ -85,7 +88,7 @@ export default function About() {
 
               {/* Name badge at bottom */}
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="font-cinzel text-lg font-bold text-white">{PANDIT_NAME}</p>
+                <p className="font-cinzel text-lg font-bold text-white">{panditName}</p>
                 <p className="font-poppins text-[11px] tracking-[0.2em] text-gold-400/70 uppercase mt-0.5">
                   Vedic Astrologer · 15+ Yrs Experience
                 </p>
@@ -116,7 +119,7 @@ export default function About() {
                 <span className="text-gradient-gold">Life's Greatest Challenges</span>
               </h3>
               <p className="font-poppins text-white/55 text-sm leading-relaxed max-w-md">
-                Born into a lineage of Vedic scholars, {PANDIT_NAME} has spent 15+ years transforming lives
+                Born into a lineage of Vedic scholars, {panditName} has spent 15+ years transforming lives
                 across 50+ countries — through love, marriage, career, and spiritual guidance.
               </p>
             </div>

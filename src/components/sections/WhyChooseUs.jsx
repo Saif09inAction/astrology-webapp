@@ -3,7 +3,7 @@ import { Shield, Clock, Heart, Star, Zap, Lock } from 'lucide-react'
 import GlowOrb from '../ui/GlowOrb'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
-import { PANDIT_NAME, WHATSAPP_CONSULT } from '../../constants'
+import { useApp } from '../../context/AppContext'
 
 const reasons = [
   { icon: Lock,   title: '100% Confidential',     desc: 'Your secrets stay between us — always.',              accent: '#a78bfa' },
@@ -22,6 +22,9 @@ const stats = [
 ]
 
 export default function WhyChooseUs() {
+  const { settings } = useApp()
+  const { panditName, whatsappBase } = settings
+  const WHATSAPP_CONSULT = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I need your consultation.`)}`
   return (
     <section
       id="why"
@@ -134,7 +137,7 @@ export default function WhyChooseUs() {
                 <span className="text-gradient-gold">find peace and move forward</span>."
               </p>
               <p className="font-poppins text-white/35 text-xs mt-3 tracking-wider">
-                — {PANDIT_NAME}, 15+ years of transforming lives
+                — {panditName}, 15+ years of transforming lives
               </p>
             </div>
 
