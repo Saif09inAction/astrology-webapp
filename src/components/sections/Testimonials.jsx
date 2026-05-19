@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { Star } from 'lucide-react'
+import { Star, ShieldCheck } from 'lucide-react'
 import GlowOrb from '../ui/GlowOrb'
 import { getTestimonials } from '../../firebase/firestore'
 
@@ -10,6 +10,13 @@ const STATIC_BASE = [
   { name: 'Anita Patel',   location: 'Ahmedabad', service: 'Kundli Matching', rating: 5, text: 'Both families were against our marriage. Pandit Ji resolved every dosha and we had a beautiful wedding.', color: '#fbbf24', avatar: 'AP' },
   { name: 'Vikram Singh',  location: 'Delhi',     service: 'Ex Love Back',    rating: 5, text: 'My ex came back within a week. I am so grateful to Dheeraj Shastri Ji.', color: '#a78bfa', avatar: 'VS' },
   { name: 'Sunita Gupta',  location: 'Jaipur',    service: 'Business',        rating: 5, text: 'My business was at a loss for 2 years. After his remedies, everything turned around completely.', color: '#34d399', avatar: 'SG' },
+]
+
+/* Real WhatsApp screenshot proofs */
+const SCREENSHOT_CARDS = [
+  { src: '/review1.png', label: 'Marriage Success',  service: 'Vashikaran' },
+  { src: '/review2.png', label: 'Ranji – Dubai',     service: 'Ex Love Back' },
+  { src: '/review3.png', label: 'Relationship Help', service: 'Love Problem' },
 ]
 
 const GAP = 20
@@ -59,17 +66,57 @@ function Card({ t }) {
   )
 }
 
+function ScreenshotCard({ src, label, service }) {
+  return (
+    <div
+      className="relative rounded-2xl overflow-hidden shrink-0"
+      style={{
+        width: 'clamp(200px, 55vw, 240px)',
+        background: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(245,158,11,0.2)',
+      }}
+    >
+      {/* Gold top line */}
+      <div className="absolute top-0 left-0 right-0 h-px z-10"
+        style={{ background: 'linear-gradient(90deg,transparent,rgba(245,158,11,0.6),transparent)' }} />
+
+      {/* Screenshot image */}
+      <img
+        src={src}
+        alt={label}
+        className="w-full object-cover object-top"
+        style={{ maxHeight: 280, display: 'block' }}
+        loading="lazy"
+        draggable={false}
+      />
+
+      {/* Bottom verified badge */}
+      <div className="flex items-center justify-between px-3 py-2.5"
+        style={{ background: 'rgba(5,9,22,0.95)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="flex items-center gap-1.5">
+          <ShieldCheck size={11} className="text-green-400 shrink-0" />
+          <span className="font-poppins text-[10px] text-green-400 font-medium">Verified WhatsApp</span>
+        </div>
+        <span className="font-poppins text-[9px] tracking-wider uppercase px-1.5 py-0.5 rounded-full"
+          style={{ background: 'rgba(245,158,11,0.1)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.2)' }}>
+          {service}
+        </span>
+      </div>
+    </div>
+  )
+}
+
 /* ─── Infinite marquee row using RAF — supports touch drag ─── */
-function MarqueeRow({ cards, reverse = false, speed = 0.45 }) {
+function MarqueeRow({ items, reverse = false, speed = 0.45 }) {
   const wrapRef  = useRef(null)
   const trackRef = useRef(null)
-  const posRef   = useRef(null)   // null = not yet initialised
+  const posRef   = useRef(null)
   const rafRef   = useRef(null)
   const pauseRef = useRef(false)
   const touchRef = useRef({ active: false, lastX: 0 })
 
-  /* Duplicate cards enough times to fill any viewport with overflow */
-  const repeated = [...cards, ...cards, ...cards, ...cards, ...cards, ...cards]
+  /* Duplicate items enough times to fill any viewport with overflow */
+  const repeated = [...items, ...items, ...items, ...items, ...items, ...items]
 
   useEffect(() => {
     const track = trackRef.current
@@ -148,20 +195,36 @@ function MarqueeRow({ cards, reverse = false, speed = 0.45 }) {
         className="flex"
         style={{ gap: GAP, willChange: 'transform' }}
       >
-        {repeated.map((t, i) => <Card key={i} t={t} />)}
+        {repeated.map((item, i) =>
+          item.type === 'screenshot'
+            ? <ScreenshotCard key={i} {...item.data} />
+            : <Card key={i} t={item.data} />
+        )}
       </div>
     </div>
   )
 }
 
 export default function Testimonials() {
-  const [cards, setCards] = useState(STATIC_BASE)
+  const [textCards, setTextCards] = useState(STATIC_BASE)
 
   useEffect(() => {
     getTestimonials()
-      .then(data => { if (data.length >= 1) setCards(data) })
+      .then(data => { if (data.length >= 1) setTextCards(data) })
       .catch(() => {})
   }, [])
+
+  /* Build mixed items: interleave screenshot cards between text cards */
+  const row1Items = [
+    ...textCards.slice(0, 2).map(t => ({ type: 'text', data: t })),
+    { type: 'screenshot', data: SCREENSHOT_CARDS[0] },
+    ...textCards.slice(2).map(t => ({ type: 'text', data: t })),
+    { type: 'screenshot', data: SCREENSHOT_CARDS[1] },
+  ]
+  const row2Items = [
+    { type: 'screenshot', data: SCREENSHOT_CARDS[2] },
+    ...textCards.map(t => ({ type: 'text', data: t })),
+  ]
 
   return (
     <section
@@ -199,8 +262,8 @@ export default function Testimonials() {
 
         {/* Two marquee rows */}
         <div className="flex flex-col" style={{ gap: 20 }}>
-          <MarqueeRow cards={cards} reverse={false} speed={0.45} />
-          <MarqueeRow cards={cards} reverse={true}  speed={0.45} />
+          <MarqueeRow items={row1Items} reverse={false} speed={0.45} />
+          <MarqueeRow items={row2Items} reverse={true}  speed={0.45} />
         </div>
 
         {/* Edge fades */}
