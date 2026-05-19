@@ -151,7 +151,7 @@ function MarqueeRow({ items, reverse = false, speed = 0.45 }) {
       cancelAnimationFrame(frame)
       cancelAnimationFrame(rafRef.current)
     }
-  }, [cards.length, reverse, speed])
+  }, [items.length, reverse, speed])
 
   /* Desktop hover */
   const onMouseEnter = () => { pauseRef.current = true }
@@ -214,17 +214,13 @@ export default function Testimonials() {
       .catch(() => {})
   }, [])
 
-  /* Build mixed items: interleave screenshot cards between text cards */
+  /* Row 1: all text cards first, then screenshot cards at the end */
   const row1Items = [
-    ...textCards.slice(0, 2).map(t => ({ type: 'text', data: t })),
-    { type: 'screenshot', data: SCREENSHOT_CARDS[0] },
-    ...textCards.slice(2).map(t => ({ type: 'text', data: t })),
-    { type: 'screenshot', data: SCREENSHOT_CARDS[1] },
-  ]
-  const row2Items = [
-    { type: 'screenshot', data: SCREENSHOT_CARDS[2] },
     ...textCards.map(t => ({ type: 'text', data: t })),
+    ...SCREENSHOT_CARDS.map(s => ({ type: 'screenshot', data: s })),
   ]
+  /* Row 2: same order, different scroll direction */
+  const row2Items = [...row1Items]
 
   return (
     <section
