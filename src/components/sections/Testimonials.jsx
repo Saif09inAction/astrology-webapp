@@ -139,7 +139,7 @@ function CoverflowCarousel() {
               style={{ background: 'linear-gradient(90deg,transparent,rgba(245,158,11,0.6),transparent)' }} />
             <img
               src={card.src}
-              alt="Client WhatsApp proof"
+              alt={`Verified WhatsApp review – ${card.service} solution by Dheeraj Shastri Ji`}
               className="w-full block object-cover object-top"
               style={{ height: CARD_H - 34 }}
               draggable={false}
@@ -264,7 +264,7 @@ export default function Testimonials() {
   }, [])
 
   return (
-    <section id="testimonials" aria-label="Client testimonials" className="relative overflow-hidden"
+    <section id="testimonials" aria-label="Love back & relationship problem solution client reviews" className="relative overflow-hidden"
       style={{ background: 'linear-gradient(180deg,rgba(10,15,35,1) 0%,rgba(3,7,18,1) 100%)', paddingTop: 'clamp(4rem,10vw,8rem)', paddingBottom: 'clamp(4rem,10vw,8rem)' }}>
 
       <GlowOrb color="purple" size={600} top="50%" left="50%" opacity={0.05} />

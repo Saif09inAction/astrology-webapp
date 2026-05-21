@@ -4,8 +4,21 @@ import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
 import { onWhatsAppClick, onContactClick } from '../../analytics/meta'
 
-const quickLinks = ['About', 'Services', 'Testimonials', 'FAQ', 'Contact']
-const services = ['Love Problem Solution', 'Ex Love Back', 'Marriage Consultation', 'Kundli Matching', 'Career Guidance', 'Business Problems']
+const quickLinks = [
+  { label: 'About', id: 'about', title: 'About love back astrologer Dheeraj Shastri Ji' },
+  { label: 'Services', id: 'services', title: 'Ex love back, vashikaran & relationship astrology services' },
+  { label: 'Testimonials', id: 'testimonials', title: 'Love problem solution client reviews' },
+  { label: 'FAQ', id: 'faq', title: 'FAQ – ex love back, breakup help & online consultation' },
+  { label: 'Contact', id: 'contact', title: 'Contact online love astrologer – free consultation' },
+]
+const services = [
+  { name: 'Love Problem Solution', title: 'Love problem solution astrologer – get ex back' },
+  { name: 'Ex Love Back', title: 'Ex love back solution specialist' },
+  { name: 'Marriage Consultation', title: 'Marriage problem solution astrologer' },
+  { name: 'Kundli Matching', title: 'Love marriage kundli matching' },
+  { name: 'Career Guidance', title: 'Career astrology consultation' },
+  { name: 'Business Problems', title: 'Business problem solution astrologer' },
+]
 
 export default function Footer() {
   const { settings, openModal } = useApp()
@@ -36,7 +49,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="font-poppins text-xs text-white/35 leading-relaxed mb-5">
-            Trusted Vedic astrologer with 15+ years of experience. Helping thousands find clarity, love, and purpose through ancient cosmic wisdom.
+            Trusted love back astrologer &amp; vashikaran specialist with 15+ years experience. Ex love back, breakup help, marriage problems &amp; online relationship guidance across Mumbai, Delhi, Pune, Bangalore &amp; India.
           </p>
           <p className="font-poppins text-[11px] text-gold-400/70 font-medium">
             Pay After Work Done · Results in 24 Hours
@@ -48,13 +61,14 @@ export default function Footer() {
           <h4 className="font-cinzel text-[11px] font-semibold text-white/50 uppercase tracking-[0.2em] mb-5">Navigation</h4>
           <ul className="space-y-3">
             {quickLinks.map(l => (
-              <li key={l}>
+              <li key={l.label}>
                 <button
-                  onClick={() => scrollTo(l)}
+                  onClick={() => scrollTo(l.id)}
+                  title={l.title}
                   className="font-poppins text-[13px] text-white/40 hover:text-gold-400 transition-colors flex items-center gap-2"
                 >
                   <span className="w-1 h-1 rounded-full bg-white/15" />
-                  {l}
+                  {l.label}
                 </button>
               </li>
             ))}
@@ -66,9 +80,15 @@ export default function Footer() {
           <h4 className="font-cinzel text-[11px] font-semibold text-white/50 uppercase tracking-[0.2em] mb-5">Services</h4>
           <ul className="space-y-3">
             {services.map(s => (
-              <li key={s} className="font-poppins text-[13px] text-white/40 flex items-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-purple-400/30" />
-                {s}
+              <li key={s.name}>
+                <button
+                  onClick={() => scrollTo('services')}
+                  title={s.title}
+                  className="font-poppins text-[13px] text-white/40 hover:text-gold-400 transition-colors flex items-center gap-2 text-left"
+                >
+                  <span className="w-1 h-1 rounded-full bg-purple-400/30" />
+                  {s.name}
+                </button>
               </li>
             ))}
           </ul>
@@ -94,7 +114,8 @@ export default function Footer() {
             </li>
             <li className="flex items-start gap-3">
               <MapPin size={13} className="text-gold-400 mt-0.5 shrink-0" />
-              <p className="font-poppins text-[13px] text-white/70">India · Online Worldwide</p>
+              <p className="font-poppins text-[13px] text-white/70">India · Mumbai · Delhi · Pune · Bangalore</p>
+              <p className="font-poppins text-[11px] text-white/30 mt-0.5">Online consultation worldwide</p>
             </li>
           </ul>
 

@@ -67,7 +67,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      aria-label="Contact Dheeraj Shastri Ji for Free Consultation"
+      aria-label="Contact love back astrologer for free online consultation"
       className="relative section-padding overflow-hidden"
       style={{ background: 'linear-gradient(180deg, rgba(10,15,35,1) 0%, rgba(3,7,18,1) 100%)' }}
     >

@@ -32,7 +32,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      aria-label="Dheeraj Shastri Ji – India's Most Trusted Vedic Astrologer"
+      aria-label="Dheeraj Shastri Ji – Love back astrologer, ex love specialist & online relationship guidance India"
       className="relative overflow-hidden"
       style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', background: '#030712' }}
     >
@@ -349,7 +349,7 @@ export default function Hero() {
                 {/* Actual image */}
                 <img
                   src="/pandit1.jpeg"
-                  alt={`${panditName} – India's Most Trusted Vedic Astrologer`}
+                  alt={`${panditName} – Love back astrologer, ex love back specialist & vashikaran expert in India`}
                   width="460"
                   height="615"
                   fetchPriority="high"

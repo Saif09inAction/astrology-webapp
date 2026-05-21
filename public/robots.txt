@@ -5,5 +5,17 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
+# Allow important assets for image SEO
+Allow: /pandit1.jpeg
+Allow: /pandit2.jpeg
+Allow: /review1.png
+Allow: /review2.png
+Allow: /review3.png
+Allow: /favicon.svg
+Allow: /manifest.json
+
 # Sitemap (canonical non-www domain only)
 Sitemap: https://lovebackastro.in/sitemap.xml
+
+# Host preference (Yandex)
+Host: lovebackastro.in

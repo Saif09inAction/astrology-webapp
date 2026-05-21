@@ -8,6 +8,7 @@ import { AppProvider } from '../context/AppContext'
 
 // Hero loads eagerly — it's the LCP element
 import Hero from '../components/sections/Hero'
+import StructuredData from '../components/seo/StructuredData'
 
 // Everything below the fold loads lazily — reduces initial JS parse by ~40%
 const GuaranteeBanner = lazy(() => import('../components/sections/GuaranteeBanner'))
@@ -34,6 +35,7 @@ function SectionSkeleton() {
 export default function Home() {
   return (
     <AppProvider>
+    <StructuredData />
     <div className="relative">
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <Navbar />

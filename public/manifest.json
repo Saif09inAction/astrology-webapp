@@ -1,7 +1,7 @@
 {
-  "name": "Dheeraj Shastri Ji – Vedic Astrologer",
-  "short_name": "Dheeraj Shastri Ji",
-  "description": "India's most trusted Vedic astrologer. Love, marriage & career solutions. Results in 24 hours.",
+  "name": "Love Back Astrologer – Dheeraj Shastri Ji",
+  "short_name": "Love Back Astro",
+  "description": "Ex love back solution, breakup help, vashikaran specialist & online relationship astrology. Mumbai, Delhi, Pune, Bangalore & India.",
   "id": "https://lovebackastro.in/",
   "start_url": "https://lovebackastro.in/",
   "scope": "https://lovebackastro.in/",
@@ -10,6 +10,7 @@
   "theme_color": "#030712",
   "orientation": "portrait-primary",
   "lang": "en-IN",
+  "dir": "ltr",
   "icons": [
     {
       "src": "/favicon.svg",
@@ -18,7 +19,7 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["lifestyle", "health", "education"],
+  "categories": ["lifestyle", "health", "education", "spirituality"],
   "related_applications": [],
   "prefer_related_applications": false
 }

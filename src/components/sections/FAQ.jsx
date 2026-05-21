@@ -6,33 +6,7 @@ import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
 import { onWhatsAppClick } from '../../analytics/meta'
-
-const faqs = [
-  {
-    q: 'Is my consultation completely private?',
-    a: 'Absolutely. Every consultation is held in strict confidence. Your personal details and discussions are never shared with anyone.',
-  },
-  {
-    q: 'How does an online consultation work?',
-    a: 'Reach out via WhatsApp or the contact form. Share your name, date of birth, birth time, and place. Pandit Ji will analyze your chart and connect with you via call or WhatsApp.',
-  },
-  {
-    q: 'How long before I see results?',
-    a: 'Most clients notice positive shifts within 1–4 weeks of consistently following the prescribed remedies. Pandit Ji will give you a realistic timeline during consultation.',
-  },
-  {
-    q: 'Do I need my exact birth time?',
-    a: 'Exact birth time gives the most accurate reading. However, Pandit Ji can still provide valuable guidance with an approximate time using advanced Vedic techniques.',
-  },
-  {
-    q: 'Is there a guarantee for solutions?',
-    a: 'Yes — results within 24 hours or double your money back. Pandit Ji has a 98% satisfaction rate built over 15+ years and personally follows up to ensure results.',
-  },
-  {
-    q: 'Can I consult for a family member?',
-    a: 'Yes. Provide their birth details and describe the situation. Pandit Ji will analyze and suggest appropriate remedies on their behalf.',
-  },
-]
+import { SEO_FAQS as faqs } from '../../seo/faqs'
 
 export default function FAQ() {
   const { settings } = useApp()
@@ -43,7 +17,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      aria-label="Frequently Asked Questions about Vedic Astrology Consultation"
+      aria-label="FAQ – Love back astrologer, ex love back solution, vashikaran & online relationship guidance"
       className="relative section-padding overflow-hidden"
       style={{ background: 'linear-gradient(180deg, rgba(3,7,18,1) 0%, rgba(10,15,35,1) 100%)' }}
     >

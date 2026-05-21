@@ -26,7 +26,7 @@ export default function About() {
   const { panditName, whatsappBase } = settings
   const WHATSAPP_CONSULT = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I need your consultation.`)}`
   return (
-    <section id="about" aria-label="About Dheeraj Shastri Ji" className="relative section-padding overflow-hidden"
+    <section id="about" aria-label="About Dheeraj Shastri Ji – Love back & relationship astrologer" className="relative section-padding overflow-hidden"
       style={{ background: 'linear-gradient(180deg, rgba(3,7,18,1) 0%, rgba(10,15,35,1) 100%)' }}
     >
       <GlowOrb color="gold"   size={500} top="40%" left="0%"   opacity={0.06} />
@@ -72,7 +72,7 @@ export default function About() {
             >
               <img
                 src="/pandit2.jpeg"
-                alt={`${panditName} – Vedic Astrologer with 15+ years of experience`}
+                alt={`${panditName} – Best love back astrologer & relationship problem specialist, 15+ years experience`}
                 loading="lazy"
                 decoding="async"
                 width="420"

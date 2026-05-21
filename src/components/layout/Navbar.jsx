@@ -7,12 +7,12 @@ import { useApp } from '../../context/AppContext'
 import { onWhatsAppClick, onContactClick } from '../../analytics/meta'
 
 const navLinks = [
-  { label: 'Home',         href: '#hero',         icon: Home },
-  { label: 'About',        href: '#about',        icon: Info },
-  { label: 'Services',     href: '#services',     icon: Sparkles },
-  { label: 'Testimonials', href: '#testimonials', icon: Star },
-  { label: 'FAQ',          href: '#faq',          icon: HelpCircle },
-  { label: 'Contact',      href: '#contact',      icon: PhoneIcon },
+  { label: 'Home',         href: '#hero',         icon: Home,         title: 'Love back astrologer – home' },
+  { label: 'About',        href: '#about',        icon: Info,         title: 'About Dheeraj Shastri Ji – ex love specialist' },
+  { label: 'Services',     href: '#services',     icon: Sparkles,     title: 'Love problem solution & vashikaran services' },
+  { label: 'Testimonials', href: '#testimonials', icon: Star,         title: 'Ex love back & relationship problem reviews' },
+  { label: 'FAQ',          href: '#faq',          icon: HelpCircle,   title: 'FAQ – breakup help & online astrology' },
+  { label: 'Contact',      href: '#contact',      icon: PhoneIcon,    title: 'Contact online love astrologer' },
 ]
 
 export default function Navbar() {
@@ -75,6 +75,7 @@ export default function Navbar() {
               <button
                 key={link.label}
                 onClick={() => scrollTo(link.href)}
+                title={link.title}
                 className="font-poppins text-[14px] text-white/55 hover:text-white transition-colors duration-300 relative group"
               >
                 {link.label}
@@ -142,13 +143,14 @@ export default function Navbar() {
 
             {/* Nav links with stagger */}
             <nav className="flex flex-col gap-2 mb-8" aria-label="Mobile navigation">
-              {navLinks.map(({ label, href, icon: Icon }, i) => (
+              {navLinks.map(({ label, href, icon: Icon, title }, i) => (
                 <motion.button
                   key={label}
                   initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.2, delay: i * 0.04 }}
                   onClick={() => scrollTo(href)}
+                  title={title}
                   className="flex items-center gap-4 w-full text-left px-4 py-3.5 rounded-2xl transition-all duration-200 active:scale-[0.97]"
                   style={{
                     background: 'rgba(255,255,255,0.025)',
