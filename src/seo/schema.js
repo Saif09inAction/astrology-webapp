@@ -262,3 +262,49 @@ export function buildSchemaGraph() {
     ],
   }
 }
+
+/** City landing page JSON-LD */
+export function buildCitySchemaGraph(page) {
+  const pageUrl = `${siteUrl}/${page.slug}`
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': `${pageUrl}/#webpage`,
+        url: pageUrl,
+        name: page.title,
+        description: page.description,
+        inLanguage: 'en-IN',
+        isPartOf: { '@id': `${siteUrl}/#website` },
+        about: { '@id': `${siteUrl}/#business` },
+        keywords: page.keywords.join(', '),
+      },
+      {
+        '@type': ['LocalBusiness', 'ProfessionalService'],
+        '@id': `${pageUrl}/#business`,
+        name: `${brandName} – Love Astrologer ${page.city}`,
+        description: page.description,
+        url: pageUrl,
+        telephone: phone,
+        image,
+        areaServed: { '@type': 'City', name: page.city, containedInPlace: { '@type': 'AdministrativeArea', name: page.region } },
+        priceRange: '₹₹',
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.9',
+          reviewCount: '1200',
+          bestRating: '5',
+          worstRating: '1',
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: page.h1, item: pageUrl },
+        ],
+      },
+    ],
+  }
+}

@@ -17,28 +17,36 @@
       <image:loc>https://lovebackastro.in/pandit1.jpeg</image:loc>
       <image:title>Dheeraj Shastri Ji – Love Back Astrologer &amp; Ex Love Specialist India</image:title>
       <image:caption>Best love back astrologer, vashikaran specialist &amp; online relationship guidance – Mumbai, Delhi, Pune, Bangalore</image:caption>
-      <image:geo_location>Mumbai, Maharashtra, India</image:geo_location>
     </image:image>
-    <image:image>
-      <image:loc>https://lovebackastro.in/pandit2.jpeg</image:loc>
-      <image:title>Pandit Dheeraj Shastri Ji – Relationship Problem Astrologer</image:title>
-      <image:caption>Online love astrologer with 15+ years experience in ex love back, breakup help &amp; marriage problem solutions</image:caption>
-      <image:geo_location>India</image:geo_location>
-    </image:image>
-    <image:image>
-      <image:loc>https://lovebackastro.in/review1.png</image:loc>
-      <image:title>Verified vashikaran solution client review WhatsApp proof</image:title>
-      <image:caption>Real client review for vashikaran &amp; love problem solution by Dheeraj Shastri Ji</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://lovebackastro.in/review2.png</image:loc>
-      <image:title>Verified ex love back client review WhatsApp proof</image:title>
-      <image:caption>Real client review for ex love back solution by Dheeraj Shastri Ji</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://lovebackastro.in/review3.png</image:loc>
-      <image:title>Verified love problem solution client review WhatsApp proof</image:title>
-      <image:caption>Real client review for love problem solution by Dheeraj Shastri Ji</image:caption>
-    </image:image>
+  </url>
+  <url>
+    <loc>https://lovebackastro.in/love-astrologer-mumbai</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://lovebackastro.in/love-astrologer-delhi</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://lovebackastro.in/love-astrologer-pune</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://lovebackastro.in/love-astrologer-bangalore</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://lovebackastro.in/ex-love-back-specialist-india</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
   </url>
 </urlset>

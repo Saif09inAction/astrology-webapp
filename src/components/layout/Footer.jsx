@@ -1,8 +1,10 @@
+import { Link } from 'react-router-dom'
 import { Phone, Clock, MapPin } from 'lucide-react'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
 import { onWhatsAppClick, onContactClick } from '../../analytics/meta'
+import { CITY_PAGES } from '../../seo/cityPages'
 
 const quickLinks = [
   { label: 'About', id: 'about', title: 'About love back astrologer Dheeraj Shastri Ji' },
@@ -116,6 +118,18 @@ export default function Footer() {
               <MapPin size={13} className="text-gold-400 mt-0.5 shrink-0" />
               <p className="font-poppins text-[13px] text-white/70">India · Mumbai · Delhi · Pune · Bangalore</p>
               <p className="font-poppins text-[11px] text-white/30 mt-0.5">Online consultation worldwide</p>
+              <nav aria-label="City service pages" className="flex flex-wrap gap-x-2 gap-y-1 mt-2">
+                {CITY_PAGES.map((p) => (
+                  <Link
+                    key={p.slug}
+                    to={`/${p.slug}`}
+                    title={`Love astrologer ${p.city}`}
+                    className="font-poppins text-[10px] text-white/25 hover:text-gold-400/70 transition-colors"
+                  >
+                    {p.city}
+                  </Link>
+                ))}
+              </nav>
             </li>
           </ul>
 
