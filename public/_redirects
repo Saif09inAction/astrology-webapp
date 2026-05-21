@@ -1,0 +1,7 @@
+# Canonical domain: https://lovebackastro.in (non-www, HTTPS only)
+https://www.lovebackastro.in/*  https://lovebackastro.in/:splat  301!
+http://www.lovebackastro.in/*   https://lovebackastro.in/:splat  301!
+http://lovebackastro.in/*       https://lovebackastro.in/:splat  301!
+
+# SPA fallback
+/*  /index.html  200

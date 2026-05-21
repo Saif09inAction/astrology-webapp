@@ -5,6 +5,7 @@ import GlowOrb from '../ui/GlowOrb'
 import { WhatsAppIcon } from '../ui/Icons'
 import { submitLead } from '../../firebase/firestore'
 import { useApp } from '../../context/AppContext'
+import { trackLeadSubmit, onWhatsAppClick, onContactClick } from '../../analytics/meta'
 
 const problemTypes = [
   'Love Problem Solution', 'Ex Love Back', 'Marriage Consultation',
@@ -39,6 +40,12 @@ export default function Contact() {
     if (!form.name || !form.phone || !form.problem) { setError('Please fill in Name, Phone and Problem type.'); return }
     setError(''); setLoading(true)
     try { await submitLead(form) } catch {}
+    trackLeadSubmit({
+      name: form.name,
+      phone: form.phone,
+      service: form.problem,
+      source: 'contact_section',
+    })
     setSuccess(true); setLoading(false)
     const msg = encodeURIComponent(`Hello ${panditName}, my name is ${form.name}. I need help with: ${form.problem}.${form.message ? ' ' + form.message : ''}`)
     setTimeout(() => window.open(`${WHATSAPP_BASE}?text=${msg}`, '_blank'), 900)
@@ -102,6 +109,7 @@ export default function Contact() {
               href={WHATSAPP_CONSULT}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={onWhatsAppClick('contact_section_card')}
               className="group relative flex items-center gap-5 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1"
               style={{ background: 'linear-gradient(135deg, rgba(37,211,102,0.1) 0%, rgba(37,211,102,0.04) 100%)', border: '1px solid rgba(37,211,102,0.2)' }}
             >
@@ -123,6 +131,7 @@ export default function Contact() {
             {/* Call card */}
             <a
               href={PHONE_TEL}
+              onClick={onContactClick('contact_section_card')}
               className="group relative flex items-center gap-5 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1"
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
             >

@@ -2,6 +2,7 @@ import { Phone, Clock, MapPin } from 'lucide-react'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
+import { onWhatsAppClick, onContactClick } from '../../analytics/meta'
 
 const quickLinks = ['About', 'Services', 'Testimonials', 'FAQ', 'Contact']
 const services = ['Love Problem Solution', 'Ex Love Back', 'Marriage Consultation', 'Kundli Matching', 'Career Guidance', 'Business Problems']
@@ -80,7 +81,7 @@ export default function Footer() {
             <li className="flex items-start gap-3">
               <Phone size={13} className="text-gold-400 mt-0.5 shrink-0" />
               <div>
-                <a href={phoneTel} className="font-poppins text-[13px] text-white/70 hover:text-white transition-colors">{phoneDisplay}</a>
+                <a href={phoneTel} onClick={onContactClick('footer_phone')} className="font-poppins text-[13px] text-white/70 hover:text-white transition-colors">{phoneDisplay}</a>
                 <p className="font-poppins text-[11px] text-white/30 mt-0.5">Call or WhatsApp</p>
               </div>
             </li>
@@ -103,6 +104,7 @@ export default function Footer() {
             href={waConsult}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={onWhatsAppClick('footer_whatsapp')}
             icon={<WhatsAppIcon size={15} />}
             className="mt-5 !text-[13px] !py-2.5 !px-5"
           >

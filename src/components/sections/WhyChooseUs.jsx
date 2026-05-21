@@ -4,6 +4,7 @@ import GlowOrb from '../ui/GlowOrb'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
+import { onWhatsAppClick } from '../../analytics/meta'
 
 const reasons = [
   { icon: Lock,   title: '100% Confidential',     desc: 'Your secrets stay between us — always.',              accent: '#a78bfa' },
@@ -160,6 +161,7 @@ export default function WhyChooseUs() {
               href={WHATSAPP_CONSULT}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={onWhatsAppClick('why_choose_us_section')}
               icon={<WhatsAppIcon size={17} />}
             >
               Start Free Consultation

@@ -4,6 +4,7 @@ import GlowOrb from '../ui/GlowOrb'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
+import { onWhatsAppClick } from '../../analytics/meta'
 
 const expertise = [
   { icon: Star,   label: 'Vedic Jyotish & Kundli Reading' },
@@ -195,6 +196,7 @@ export default function About() {
               href={WHATSAPP_CONSULT}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={onWhatsAppClick('about_section')}
               icon={<WhatsAppIcon size={16} />}
             >
               Book a Free Consultation

@@ -4,6 +4,7 @@ import StarField from '../ui/StarField'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
+import { onContactClick } from '../../analytics/meta'
 
 /* ─── Stagger helper ─── */
 const fadeUp = (delay = 0) => ({
@@ -265,6 +266,7 @@ export default function Hero() {
                 as="a"
                 variant="secondary"
                 href={phoneTel}
+                onClick={onContactClick('hero_call_button')}
                 icon={<Phone size={16} />}
               >
                 {phoneDisplay}

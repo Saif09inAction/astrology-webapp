@@ -5,6 +5,7 @@ import GlowOrb from '../ui/GlowOrb'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
+import { onWhatsAppClick } from '../../analytics/meta'
 
 const faqs = [
   {
@@ -106,6 +107,7 @@ export default function FAQ() {
                 href={WHATSAPP_FREE}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={onWhatsAppClick('faq_section')}
                 icon={<WhatsAppIcon size={15} />}
               >
                 Ask on WhatsApp — Free

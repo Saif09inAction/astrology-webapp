@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Phone } from 'lucide-react'
 import { WhatsAppIcon } from './Icons'
 import { useApp } from '../../context/AppContext'
+import { onContactClick } from '../../analytics/meta'
 
 const spring = { type: 'spring', stiffness: 220, damping: 18 }
 
@@ -26,6 +27,7 @@ export default function FloatingButtons() {
       {/* Call FAB */}
       <motion.a
         href={settings.phoneTel}
+        onClick={onContactClick('floating_call_fab')}
         title="Call Now"
         className="btn-fab btn-fab-call"
         initial={{ scale: 0, opacity: 0 }}

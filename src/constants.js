@@ -1,3 +1,6 @@
+/** Canonical production domain — use for all absolute URLs in SEO/metadata */
+export const SITE_URL = 'https://lovebackastro.in'
+
 export const PANDIT_NAME = 'Dheeraj Shastri Ji'
 export const PHONE_RAW = '917257857609'
 export const PHONE_DISPLAY = '+91 72578 57609'

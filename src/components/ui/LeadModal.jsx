@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, User, ChevronDown, MessageSquare, Gift, Sparkles } from 'lucide-react'
 import { submitLead } from '../../firebase/firestore'
 import { useApp } from '../../context/AppContext'
+import { trackLeadSubmit } from '../../analytics/meta'
 
 const SERVICE_LIST = [
   'Love Problem Solution', 'Ex Love Back', 'Marriage Consultation',
@@ -98,6 +99,12 @@ export default function LeadModal() {
         name: form.name.trim(), phone: fullPhone,
         service: form.service, message: form.message.trim(), source: 'website-modal',
       })
+      trackLeadSubmit({
+        name: form.name.trim(),
+        phone: fullPhone,
+        service: form.service,
+        source: 'lead_modal',
+      })
       setSuccess(true)
       setLoading(false)
       setTimeout(() => {
@@ -107,6 +114,12 @@ export default function LeadModal() {
     } catch (err) {
       console.error('Firestore error:', err)
       setLoading(false)
+      trackLeadSubmit({
+        name: form.name.trim(),
+        phone: fullPhone,
+        service: form.service,
+        source: 'lead_modal',
+      })
       // Still open WhatsApp even if Firestore fails, but show a note
       setError('Could not save to database (check Firestore rules), but opening WhatsApp now…')
       setTimeout(() => {

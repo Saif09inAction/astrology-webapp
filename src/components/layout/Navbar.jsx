@@ -4,6 +4,7 @@ import { Menu, X, Home, Info, Sparkles, Star, HelpCircle, Phone as PhoneIcon } f
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
+import { onWhatsAppClick, onContactClick } from '../../analytics/meta'
 
 const navLinks = [
   { label: 'Home',         href: '#hero',         icon: Home },
@@ -86,8 +87,8 @@ export default function Navbar() {
 
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3 z-10">
-            <Button as="a" variant="ghost" nav href={phoneTel}>Call Now</Button>
-            <Button as="a" variant="primary" nav href={waConsult} target="_blank" rel="noopener noreferrer">
+            <Button as="a" variant="ghost" nav href={phoneTel} onClick={onContactClick('navbar_call_desktop')}>Call Now</Button>
+            <Button as="a" variant="primary" nav href={waConsult} target="_blank" rel="noopener noreferrer" onClick={onWhatsAppClick('navbar_whatsapp_desktop')}>
               Free Consultation
             </Button>
           </div>
@@ -189,6 +190,7 @@ export default function Navbar() {
                 href={waConsult}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={onWhatsAppClick('navbar_whatsapp_mobile')}
                 onClick={() => setOpen(false)}
                 className="w-full flex items-center justify-center gap-3 font-cinzel font-bold text-[15px] py-4 rounded-2xl transition-all active:scale-[0.97]"
                 style={{
@@ -202,6 +204,7 @@ export default function Navbar() {
               </a>
               <a
                 href={phoneTel}
+                onClick={onContactClick('navbar_call_mobile')}
                 onClick={() => setOpen(false)}
                 className="w-full flex items-center justify-center gap-3 font-poppins font-medium text-[14px] py-3.5 rounded-2xl transition-all active:scale-[0.97]"
                 style={{

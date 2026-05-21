@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { getSettings } from '../firebase/firestore'
 import { PHONE_RAW, PHONE_DISPLAY, PHONE_TEL, WHATSAPP_BASE, PANDIT_NAME } from '../constants'
+import { trackWhatsAppClick } from '../analytics/meta'
 
 const AppContext = createContext(null)
 
@@ -43,6 +44,7 @@ export function AppProvider({ children }) {
 
   // ── Helpers ───────────────────────────────────────
   const openModal  = useCallback((service = '') => {
+    trackWhatsAppClick({ source: 'consultation_modal', service: service || undefined })
     setPreselectedService(service)
     setModalOpen(true)
   }, [])
