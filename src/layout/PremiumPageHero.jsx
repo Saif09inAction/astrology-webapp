@@ -82,7 +82,7 @@ export default function PremiumPageHero({
           </motion.div>
         )}
 
-        <div className="hero-grid" style={{
+        <div className="page-hero-grid" style={{
           display: 'grid', gridTemplateColumns: '1fr', gap: '48px 56px', alignItems: 'center',
         }}>
           <div className="hero-left" style={{ display: 'flex', flexDirection: 'column' }}>
