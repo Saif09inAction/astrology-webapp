@@ -4,6 +4,8 @@ export const MAIN_NAV = [
   { label: 'About', path: '/about', title: 'About Dheeraj Shastri Ji – ex love specialist' },
   { label: 'Services', path: '/services', title: 'Love problem solution & vashikaran services' },
   { label: 'Blog', path: '/blog', title: 'Love & relationship astrology guides' },
+  { label: 'Testimonials', path: '/', hash: '#testimonials', title: 'Ex love back & relationship problem reviews' },
+  { label: 'FAQ', path: '/', hash: '#faq', title: 'FAQ – breakup help & online astrology' },
   { label: 'Contact', path: '/', hash: '#contact', title: 'Contact online love astrologer' },
 ]
 

@@ -60,18 +60,6 @@ export default function Footer() {
                 </button>
               </li>
             ))}
-            <li>
-              <button onClick={() => goSection('testimonials')} title="Client reviews"
-                className="font-poppins text-[13px] text-white/40 hover:text-gold-400 transition-colors flex items-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-white/15" />Testimonials
-              </button>
-            </li>
-            <li>
-              <button onClick={() => goSection('faq')} title="FAQ"
-                className="font-poppins text-[13px] text-white/40 hover:text-gold-400 transition-colors flex items-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-white/15" />FAQ
-              </button>
-            </li>
           </ul>
         </div>
 

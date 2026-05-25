@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Menu, X, Home, Info, Sparkles, BookOpen, Phone as PhoneIcon } from 'lucide-react'
+import { Menu, X, Home, Info, Sparkles, BookOpen, Star, HelpCircle, Phone as PhoneIcon } from 'lucide-react'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
 import { onWhatsAppClick, onContactClick } from '../../analytics/meta'
 import { MAIN_NAV } from '../../seo/navigation'
 
-const ICONS = { Home, About: Info, Services: Sparkles, Blog: BookOpen, Contact: PhoneIcon }
+const ICONS = { Home, About: Info, Services: Sparkles, Blog: BookOpen, Testimonials: Star, FAQ: HelpCircle, Contact: PhoneIcon }
 
 export default function Navbar() {
   const { settings } = useApp()
@@ -47,8 +47,11 @@ export default function Navbar() {
   }
 
   const isLinkActive = (link) => {
-    if (link.label === 'Home') return isHome && location.hash !== '#contact'
-    if (link.label === 'Contact') return location.hash === '#contact' || location.pathname === '/contact'
+    if (link.hash) {
+      return location.hash === link.hash
+        || (link.label === 'Contact' && location.pathname === '/contact')
+    }
+    if (link.label === 'Home') return isHome && (!location.hash || location.hash === '#hero')
     return location.pathname === link.path
   }
 
@@ -83,7 +86,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-9 absolute left-1/2 -translate-x-1/2" aria-label="Main navigation">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 absolute left-1/2 -translate-x-1/2" aria-label="Main navigation">
             {MAIN_NAV.map(link => {
               const active = isLinkActive(link)
               return (
