@@ -1,27 +1,26 @@
 import { useState, useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Menu, X, Home, Info, Sparkles, Star, HelpCircle, Phone as PhoneIcon } from 'lucide-react'
+import { Menu, X, Home, Info, Sparkles, BookOpen, Phone as PhoneIcon } from 'lucide-react'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
 import { onWhatsAppClick, onContactClick } from '../../analytics/meta'
+import { MAIN_NAV } from '../../seo/navigation'
 
-const navLinks = [
-  { label: 'Home',         href: '#hero',         icon: Home,         title: 'Love back astrologer – home' },
-  { label: 'About',        href: '#about',        icon: Info,         title: 'About Dheeraj Shastri Ji – ex love specialist' },
-  { label: 'Services',     href: '#services',     icon: Sparkles,     title: 'Love problem solution & vashikaran services' },
-  { label: 'Testimonials', href: '#testimonials', icon: Star,         title: 'Ex love back & relationship problem reviews' },
-  { label: 'FAQ',          href: '#faq',          icon: HelpCircle,   title: 'FAQ – breakup help & online astrology' },
-  { label: 'Contact',      href: '#contact',      icon: PhoneIcon,    title: 'Contact online love astrologer' },
-]
+const ICONS = { Home, About: Info, Services: Sparkles, Blog: BookOpen, Contact: PhoneIcon }
 
 export default function Navbar() {
-  const { settings, openModal } = useApp()
+  const { settings } = useApp()
   const { panditName, phoneDisplay, phoneTel, whatsappBase } = settings
   const waConsult = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I need your consultation.`)}`
 
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isHome = location.pathname === '/'
+
   const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen]         = useState(false)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40)
@@ -29,12 +28,28 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  const scrollTo = (href) => {
+  useEffect(() => { setOpen(false) }, [location.pathname])
+
+  const handleNav = (link) => {
     setOpen(false)
-    setTimeout(() => {
-      const el = document.querySelector(href)
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    }, 50)
+    if (link.hash) {
+      const hashId = link.hash.slice(1)
+      const target = document.getElementById(hashId)
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' })
+        navigate({ pathname: location.pathname, hash: hashId }, { replace: true })
+      } else {
+        navigate({ pathname: link.path || '/', hash: hashId })
+      }
+      return
+    }
+    navigate(link.path)
+  }
+
+  const isLinkActive = (link) => {
+    if (link.label === 'Home') return isHome && location.hash !== '#contact'
+    if (link.label === 'Contact') return location.hash === '#contact' || location.pathname === '/contact'
+    return location.pathname === link.path
   }
 
   return (
@@ -45,18 +60,17 @@ export default function Navbar() {
         transition={{ duration: 0.7 }}
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          background: (scrolled || open) ? 'rgba(3,7,18,0.97)' : 'transparent',
-          backdropFilter: (scrolled || open) ? 'blur(20px)' : 'none',
-          borderBottom: (scrolled || open) ? '1px solid rgba(255,255,255,0.06)' : 'none',
-          boxShadow: (scrolled || open) ? '0 4px 30px rgba(0,0,0,0.4)' : 'none',
+          background: (scrolled || open || !isHome) ? 'rgba(3,7,18,0.97)' : 'transparent',
+          backdropFilter: (scrolled || open || !isHome) ? 'blur(20px)' : 'none',
+          borderBottom: (scrolled || open || !isHome) ? '1px solid rgba(255,255,255,0.06)' : 'none',
+          boxShadow: (scrolled || open || !isHome) ? '0 4px 30px rgba(0,0,0,0.4)' : 'none',
         }}
       >
         <div
           className="relative w-full flex items-center h-[64px] md:h-[90px]"
           style={{ paddingLeft: 'clamp(1rem,3vw,2rem)', paddingRight: 'clamp(1rem,3vw,2rem)' }}
         >
-          {/* Logo */}
-          <button onClick={() => scrollTo('#hero')} className="flex items-center gap-2 md:gap-3 group shrink-0 z-10">
+          <Link to="/" className="flex items-center gap-2 md:gap-3 group shrink-0 z-10">
             <div
               className="w-10 h-10 md:w-14 md:h-14 rounded-xl flex items-center justify-center border border-gold-400/30 transition-all duration-300 group-hover:border-gold-400/60"
               style={{ background: 'linear-gradient(135deg,rgba(245,158,11,0.12) 0%,rgba(245,158,11,0.04) 100%)', boxShadow: '0 0 20px rgba(245,158,11,0.1)' }}
@@ -67,26 +81,31 @@ export default function Navbar() {
               <p className="font-cinzel text-[15px] md:text-[20px] font-bold text-white">{panditName}</p>
               <p className="font-poppins text-[10px] md:text-[13px] tracking-[0.22em] text-gold-400/60 uppercase mt-1">Vedic Astrology</p>
             </div>
-          </button>
+          </Link>
 
-          {/* Desktop nav — centred */}
           <nav className="hidden lg:flex items-center gap-9 absolute left-1/2 -translate-x-1/2" aria-label="Main navigation">
-            {navLinks.map(link => (
-              <button
-                key={link.label}
-                onClick={() => scrollTo(link.href)}
-                title={link.title}
-                className="font-poppins text-[14px] text-white/55 hover:text-white transition-colors duration-300 relative group"
-              >
-                {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-gold-400/60 group-hover:w-full transition-all duration-300" />
-              </button>
-            ))}
+            {MAIN_NAV.map(link => {
+              const active = isLinkActive(link)
+              return (
+                <button
+                  key={link.label}
+                  onClick={() => handleNav(link)}
+                  title={link.title}
+                  className="font-poppins text-[14px] transition-colors duration-300 relative group"
+                  style={{ color: active ? '#fff' : 'rgba(255,255,255,0.55)' }}
+                >
+                  {link.label}
+                  <span className="absolute -bottom-1 left-0 h-px bg-gold-400/60 transition-all duration-300"
+                    style={{ width: active ? '100%' : '0%' }}
+                    />
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-gold-400/60 group-hover:w-full transition-all duration-300" />
+                </button>
+              )
+            })}
           </nav>
 
           <div className="flex-1" />
 
-          {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3 z-10">
             <Button as="a" variant="ghost" nav href={phoneTel} onClick={onContactClick('navbar_call_desktop')}>Call Now</Button>
             <Button as="a" variant="primary" nav href={waConsult} target="_blank" rel="noopener noreferrer" onClick={onWhatsAppClick('navbar_whatsapp_desktop')}>
@@ -94,7 +113,6 @@ export default function Navbar() {
             </Button>
           </div>
 
-          {/* Mobile hamburger */}
           <button
             onClick={() => setOpen(v => !v)}
             aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
@@ -111,128 +129,54 @@ export default function Navbar() {
         </div>
       </motion.header>
 
-      {/* ── Mobile full-screen menu ── */}
       {open && (
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.22, ease: 'easeOut' }}
           className="lg:hidden fixed inset-0 z-40 flex flex-col"
-          style={{
-            top: 64,
-            background: 'linear-gradient(180deg, rgba(3,7,18,0.99) 0%, rgba(8,12,30,0.99) 100%)',
-            backdropFilter: 'blur(28px)',
-            WebkitBackdropFilter: 'blur(28px)',
-          }}
+          style={{ top: 64, background: 'linear-gradient(180deg, rgba(3,7,18,0.99) 0%, rgba(8,12,30,0.99) 100%)', backdropFilter: 'blur(28px)' }}
         >
-          {/* Top gold accent line */}
           <div style={{ height: 1.5, background: 'linear-gradient(90deg,transparent,rgba(245,158,11,0.7),transparent)' }} />
-
-          {/* Ambient glow decoration */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
-            style={{ width: 300, height: 200, background: 'radial-gradient(ellipse at 50% 0%, rgba(109,40,217,0.12) 0%, transparent 70%)', }} />
-
           <div className="flex flex-col flex-1 overflow-y-auto px-5 pt-6 pb-8 relative z-10">
-
-            {/* OM header decoration */}
-            <div className="flex items-center justify-center mb-6">
-              <div style={{ height: 1, flex: 1, background: 'rgba(255,255,255,0.05)' }} />
-              <span className="font-cinzel text-2xl mx-4" style={{ color: 'rgba(245,158,11,0.4)' }}>ॐ</span>
-              <div style={{ height: 1, flex: 1, background: 'rgba(255,255,255,0.05)' }} />
-            </div>
-
-            {/* Nav links with stagger */}
             <nav className="flex flex-col gap-2 mb-8" aria-label="Mobile navigation">
-              {navLinks.map(({ label, href, icon: Icon, title }, i) => (
-                <motion.button
-                  key={label}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.2, delay: i * 0.04 }}
-                  onClick={() => scrollTo(href)}
-                  title={title}
-                  className="flex items-center gap-4 w-full text-left px-4 py-3.5 rounded-2xl transition-all duration-200 active:scale-[0.97]"
-                  style={{
-                    background: 'rgba(255,255,255,0.025)',
-                    border: '1px solid rgba(255,255,255,0.05)',
-                  }}
-                  onTouchStart={e => e.currentTarget.style.background = 'rgba(245,158,11,0.08)'}
-                  onTouchEnd={e => setTimeout(() => { e.currentTarget.style.background = 'rgba(255,255,255,0.025)' }, 200)}
-                >
-                  {/* Icon box */}
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-                    style={{
-                      background: i % 2 === 0 ? 'rgba(245,158,11,0.1)' : 'rgba(139,92,246,0.1)',
-                      border: `1px solid ${i % 2 === 0 ? 'rgba(245,158,11,0.2)' : 'rgba(139,92,246,0.2)'}`,
-                    }}
+              {MAIN_NAV.map((link, i) => {
+                const Icon = ICONS[link.label] || Home
+                return (
+                  <motion.button
+                    key={link.label}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.2, delay: i * 0.04 }}
+                    onClick={() => handleNav(link)}
+                    title={link.title}
+                    className="flex items-center gap-4 w-full text-left px-4 py-3.5 rounded-2xl"
+                    style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.05)' }}
                   >
-                    <Icon size={15} style={{ color: i % 2 === 0 ? '#fbbf24' : '#a78bfa' }} />
-                  </div>
-                  <span className="font-poppins text-[15px] font-medium text-white/80 flex-1">{label}</span>
-                  {/* Arrow */}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="opacity-20">
-                    <path d="M6 4l4 4-4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </motion.button>
-              ))}
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ background: i % 2 === 0 ? 'rgba(245,158,11,0.1)' : 'rgba(139,92,246,0.1)', border: `1px solid ${i % 2 === 0 ? 'rgba(245,158,11,0.2)' : 'rgba(139,92,246,0.2)'}` }}>
+                      <Icon size={15} style={{ color: i % 2 === 0 ? '#fbbf24' : '#a78bfa' }} />
+                    </div>
+                    <span className="font-poppins text-[15px] font-medium text-white/80 flex-1">{link.label}</span>
+                  </motion.button>
+                )
+              })}
             </nav>
 
-            {/* Divider */}
-            <div className="mb-5" style={{ height: 1, background: 'linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent)' }} />
-
-            {/* CTA buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, delay: 0.28 }}
-              className="flex flex-col gap-3"
-            >
-              <a
-                href={waConsult}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={onWhatsAppClick('navbar_whatsapp_mobile')}
-                onClick={() => setOpen(false)}
-                className="w-full flex items-center justify-center gap-3 font-cinzel font-bold text-[15px] py-4 rounded-2xl transition-all active:scale-[0.97]"
-                style={{
-                  background: 'linear-gradient(135deg,#fcd34d 0%,#f59e0b 100%)',
-                  color: '#0a0f1e',
-                  boxShadow: '0 8px 32px rgba(245,158,11,0.35), 0 2px 8px rgba(0,0,0,0.3)',
-                }}
-              >
-                <WhatsAppIcon size={19} />
-                Free WhatsApp Consultation
+            <div className="flex flex-col gap-3">
+              <a href={waConsult} target="_blank" rel="noopener noreferrer"
+                onClick={(e) => { onWhatsAppClick('navbar_whatsapp_mobile')(e); setOpen(false) }}
+                className="w-full flex items-center justify-center gap-3 font-cinzel font-bold text-[15px] py-4 rounded-2xl"
+                style={{ background: 'linear-gradient(135deg,#fcd34d 0%,#f59e0b 100%)', color: '#0a0f1e', boxShadow: '0 8px 32px rgba(245,158,11,0.35)' }}>
+                <WhatsAppIcon size={19} /> Free WhatsApp Consultation
               </a>
-              <a
-                href={phoneTel}
-                onClick={onContactClick('navbar_call_mobile')}
-                onClick={() => setOpen(false)}
-                className="w-full flex items-center justify-center gap-3 font-poppins font-medium text-[14px] py-3.5 rounded-2xl transition-all active:scale-[0.97]"
-                style={{
-                  background: 'rgba(245,158,11,0.05)',
-                  border: '1px solid rgba(245,158,11,0.2)',
-                  color: '#fbbf24',
-                }}
-              >
-                <PhoneIcon size={17} />
-                {phoneDisplay}
+              <a href={phoneTel}
+                onClick={(e) => { onContactClick('navbar_call_mobile')(e); setOpen(false) }}
+                className="w-full flex items-center justify-center gap-3 font-poppins font-medium text-[14px] py-3.5 rounded-2xl"
+                style={{ background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.2)', color: '#fbbf24' }}>
+                <PhoneIcon size={17} /> {phoneDisplay}
               </a>
-            </motion.div>
-
-            {/* Trust badge */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.38 }}
-              className="mt-6 flex items-center justify-center gap-2"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"
-                style={{ boxShadow: '0 0 6px rgba(52,211,153,0.9)', animation: 'pulse 2s infinite' }} />
-              <p className="font-poppins text-[11px] text-white/25 tracking-wide">
-                Available 24×7 · Confidential · Pay After Results
-              </p>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
       )}

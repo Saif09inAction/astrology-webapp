@@ -1,82 +1,68 @@
 import { motion } from 'framer-motion'
-import { Heart, ArrowLeftRight, Briefcase, TrendingUp, Home, Shield } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import {
+  Heart, ArrowLeftRight, Briefcase, TrendingUp, Home, Shield,
+  HeartCrack, Users, Sparkles, Phone,
+} from 'lucide-react'
 import GlowOrb from '../ui/GlowOrb'
 import { useApp } from '../../context/AppContext'
+import { SERVICE_PAGES } from '../../seo/services'
 
 const MarriageIcon = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
     <circle cx="8" cy="12" r="4" /><circle cx="16" cy="12" r="4" />
   </svg>
 )
-const KundliIcon = () => (
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-    <circle cx="12" cy="12" r="9" /><line x1="12" y1="3" x2="12" y2="21" />
-    <line x1="3" y1="12" x2="21" y2="12" /><circle cx="12" cy="12" r="3" />
-  </svg>
-)
 
-const services = [
-  {
-    Icon: Heart,
-    title: 'Love Problem Solution',
-    desc: 'Reunite with lost love through ancient Vedic remedies. Guaranteed results within 24 hours.',
-    accent: '#f472b6',
-    tag: 'Most Popular',
-    featured: true,
-  },
-  {
-    Icon: ArrowLeftRight,
-    title: 'Ex Love Back',
-    desc: 'Restore broken bonds and reunite permanently. Powerful spiritual remedies with real results.',
-    accent: '#fb923c',
-    tag: 'High Demand',
-    featured: true,
-  },
-  {
-    Icon: MarriageIcon,
-    title: 'Marriage Consultation',
-    desc: 'Perfect timing, compatibility & removing all obstacles.',
-    accent: '#fbbf24',
-  },
-  {
-    Icon: Briefcase,
-    title: 'Career Guidance',
-    desc: 'Align your career with your cosmic destiny.',
-    accent: '#60a5fa',
-  },
-  {
-    Icon: KundliIcon,
-    title: 'Kundli Matching',
-    desc: 'Deep birth chart analysis for a harmonious marriage.',
-    accent: '#a78bfa',
-  },
-  {
-    Icon: TrendingUp,
-    title: 'Business Problems',
-    desc: 'Remove planetary blocks and attract lasting prosperity.',
-    accent: '#34d399',
-  },
-  {
-    Icon: Home,
-    title: 'Family Disputes',
-    desc: 'Restore peace and harmony within your family.',
-    accent: '#f97316',
-  },
-  {
-    Icon: Shield,
-    title: 'Black Magic Protection',
-    desc: 'Neutralise negative energies and evil eye permanently.',
-    accent: '#94a3b8',
-  },
+/** SEO service pages → same card data as homepage Services section */
+const SEO_SERVICE_CARDS = [
+  { slug: 'love-problem-solution',       Icon: Heart,           accent: '#f472b6', featured: true,  tag: 'Most Popular' },
+  { slug: 'ex-love-back',                Icon: ArrowLeftRight,  accent: '#fb923c', featured: true,  tag: 'High Demand' },
+  { slug: 'relationship-problems',       Icon: Users,           accent: '#fbbf24' },
+  { slug: 'breakup-solution',            Icon: HeartCrack,      accent: '#60a5fa' },
+  { slug: 'love-marriage-specialist',    Icon: MarriageIcon,    accent: '#a78bfa' },
+  { slug: 'online-astrology-consultation', Icon: Phone,         accent: '#34d399' },
+  { slug: 'vashikaran-specialist',       Icon: Shield,          accent: '#f97316' },
+  { slug: 'tantrik-consultation',        Icon: Sparkles,        accent: '#94a3b8' },
+  { slug: 'marriage-problem-solution',   Icon: MarriageIcon,    accent: '#c084fc' },
+  { slug: 'husband-wife-problems',       Icon: Home,            accent: '#f87171' },
 ]
 
-/* ── Featured card (spans 2 cols on md+) ── */
+const HOME_SERVICES = [
+  { Icon: Heart, title: 'Love Problem Solution', desc: 'Reunite with lost love through ancient Vedic remedies. Guaranteed results within 24 hours.', accent: '#f472b6', tag: 'Most Popular', featured: true, slug: 'love-problem-solution' },
+  { Icon: ArrowLeftRight, title: 'Ex Love Back', desc: 'Restore broken bonds and reunite permanently. Powerful spiritual remedies with real results.', accent: '#fb923c', tag: 'High Demand', featured: true, slug: 'ex-love-back' },
+  { Icon: MarriageIcon, title: 'Marriage Consultation', desc: 'Perfect timing, compatibility & removing all obstacles.', accent: '#fbbf24', slug: 'marriage-problem-solution' },
+  { Icon: Briefcase, title: 'Career Guidance', desc: 'Align your career with your cosmic destiny.', accent: '#60a5fa', slug: 'online-astrology-consultation' },
+  { Icon: MarriageIcon, title: 'Kundli Matching', desc: 'Deep birth chart analysis for a harmonious marriage.', accent: '#a78bfa', slug: 'love-marriage-specialist' },
+  { Icon: TrendingUp, title: 'Business Problems', desc: 'Remove planetary blocks and attract lasting prosperity.', accent: '#34d399' },
+  { Icon: Home, title: 'Family Disputes', desc: 'Restore peace and harmony within your family.', accent: '#f97316', slug: 'husband-wife-problems' },
+  { Icon: Shield, title: 'Black Magic Protection', desc: 'Neutralise negative energies and evil eye permanently.', accent: '#94a3b8', slug: 'vashikaran-specialist' },
+]
+
+function buildSeoServices() {
+  return SEO_SERVICE_CARDS.map((meta) => {
+    const page = SERVICE_PAGES.find((p) => p.slug === meta.slug)
+    if (!page) return null
+    const title = page.h1.split('–')[0].trim()
+    return {
+      ...meta,
+      title,
+      desc: page.intro,
+      slug: page.slug,
+    }
+  }).filter(Boolean)
+}
+
 function FeaturedCard({ service, delay }) {
-  const { Icon, title, desc, accent, tag } = service
+  const { Icon, title, desc, accent, tag, slug } = service
   const { openModal } = useApp()
+  const navigate = useNavigate()
+  const handleClick = () => (slug ? navigate(`/${slug}`) : openModal(title))
+
   return (
     <motion.div
-      onClick={() => openModal(title)}
+      onClick={handleClick}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -89,56 +75,31 @@ function FeaturedCard({ service, delay }) {
         minHeight: 'clamp(160px,40vw,220px)',
       }}
     >
-      {/* Background glow */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ background: `radial-gradient(ellipse at 30% 40%, ${accent}15 0%, transparent 65%)` }}
-      />
-      {/* Top gradient bar */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[3px]"
-        style={{ background: `linear-gradient(90deg, ${accent}, ${accent}40, transparent)` }}
-      />
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{ background: `radial-gradient(ellipse at 30% 40%, ${accent}15 0%, transparent 65%)` }} />
+      <div className="absolute top-0 left-0 right-0 h-[3px]"
+        style={{ background: `linear-gradient(90deg, ${accent}, ${accent}40, transparent)` }} />
 
       <div>
-        {/* Tag + Icon row */}
         <div className="flex items-start justify-between mb-5">
-          <div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-            style={{ background: `${accent}15`, border: `1px solid ${accent}30`, color: accent }}
-          >
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+            style={{ background: `${accent}15`, border: `1px solid ${accent}30`, color: accent }}>
             <Icon size={26} />
           </div>
           {tag && (
-            <span
-              className="font-poppins text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full font-semibold"
-              style={{ background: `${accent}18`, color: accent, border: `1px solid ${accent}35` }}
-            >
+            <span className="font-poppins text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full font-semibold"
+              style={{ background: `${accent}18`, color: accent, border: `1px solid ${accent}35` }}>
               {tag}
             </span>
           )}
         </div>
-
-        <h3 className="font-cinzel text-[20px] font-bold text-white mb-3 group-hover:text-white transition-colors">
-          {title}
-        </h3>
-        <p className="font-poppins text-[13px] text-white/45 group-hover:text-white/65 leading-relaxed transition-colors">
-          {desc}
-        </p>
+        <h3 className="font-cinzel text-[20px] font-bold text-white mb-3 uppercase tracking-wide">{title}</h3>
+        <p className="font-poppins text-[13px] text-white/45 group-hover:text-white/65 leading-relaxed transition-colors">{desc}</p>
       </div>
 
-      {/* Bottom CTA */}
       <div className="flex items-center gap-2 mt-6">
-        <span
-          className="font-poppins text-[12px] font-semibold transition-colors"
-          style={{ color: accent }}
-        >
-          Get Help Now
-        </span>
-        <svg
-          className="transition-transform duration-300 group-hover:translate-x-1"
-          width="14" height="14" viewBox="0 0 14 14" fill="none"
-        >
+        <span className="font-poppins text-[12px] font-semibold" style={{ color: accent }}>Get Help Now</span>
+        <svg className="transition-transform duration-300 group-hover:translate-x-1" width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M2 7h10M8 4l3 3-3 3" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
@@ -146,52 +107,49 @@ function FeaturedCard({ service, delay }) {
   )
 }
 
-/* ── Regular card ── */
-function ServiceCard({ service, delay }) {
-  const { Icon, title, desc, accent } = service
+function ServiceCard({ service, delay, pageMode = false }) {
+  const { Icon, title, desc, accent, slug } = service
   const { openModal } = useApp()
+  const navigate = useNavigate()
+  const handleClick = () => (slug ? navigate(`/${slug}`) : openModal(title))
+
   return (
     <motion.div
-      onClick={() => openModal(title)}
+      onClick={handleClick}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
       className="group relative rounded-2xl overflow-hidden cursor-pointer flex flex-col"
       style={{
-        background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.06)',
+        background: pageMode ? 'rgba(255,255,255,0.025)' : 'rgba(255,255,255,0.02)',
+        border: pageMode ? `1px solid ${accent}30` : '1px solid rgba(255,255,255,0.06)',
         padding: '28px 24px',
       }}
     >
-      {/* Hover glow */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+        style={{ background: `radial-gradient(ellipse at 50% 0%, ${accent}12 0%, transparent 65%)` }} />
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
-        style={{ background: `radial-gradient(ellipse at 50% 0%, ${accent}12 0%, transparent 65%)` }}
-      />
-      {/* Top border accent */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
+        className={`absolute top-0 left-0 right-0 h-[3px] ${pageMode ? '' : 'opacity-0 group-hover:opacity-100 transition-opacity duration-300'}`}
+        style={{ background: pageMode ? `linear-gradient(90deg, ${accent}, ${accent}40, transparent)` : `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
       />
 
-      {/* Icon */}
-      <div
-        className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110"
-        style={{ background: `${accent}12`, border: `1px solid ${accent}25`, color: accent }}
-      >
+      <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110"
+        style={{ background: `${accent}12`, border: `1px solid ${accent}25`, color: accent }}>
         <Icon size={20} />
       </div>
 
-      <h3 className="font-cinzel text-[14px] font-bold text-white/80 group-hover:text-white mb-2 transition-colors">
+      <h3 className={`font-cinzel font-bold text-white/80 group-hover:text-white mb-2 transition-colors uppercase tracking-wide ${pageMode ? 'text-[15px]' : 'text-[14px]'}`}>
         {title}
       </h3>
-      <p className="font-poppins text-[12px] text-white/35 group-hover:text-white/55 leading-relaxed transition-colors flex-1">
+      <p className={`font-poppins text-white/35 group-hover:text-white/55 leading-relaxed flex-1 ${pageMode ? 'text-[13px]' : 'text-[12px]'}`}>
         {desc}
       </p>
 
-      <div className="flex items-center gap-1.5 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <span className="font-poppins text-[11px] font-medium" style={{ color: accent }}>Consult now</span>
+      <div className={`flex items-center gap-1.5 mt-4 transition-opacity duration-300 ${pageMode ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+        <span className="font-poppins text-[11px] font-medium" style={{ color: accent }}>
+          {pageMode ? 'Get Help Now' : 'Consult now'}
+        </span>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
           <path d="M2 6h8M7 3.5L9.5 6 7 8.5" stroke={accent} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
@@ -200,12 +158,14 @@ function ServiceCard({ service, delay }) {
   )
 }
 
-/* ── Mobile horizontal list card ── */
-function MobileServiceCard({ Icon, title, desc, accent, delay }) {
+function MobileServiceCard({ Icon, title, desc, accent, delay, slug }) {
   const { openModal } = useApp()
+  const navigate = useNavigate()
+  const handleClick = () => (slug ? navigate(`/${slug}`) : openModal(title))
+
   return (
     <motion.div
-      onClick={() => openModal(title)}
+      onClick={handleClick}
       initial={{ opacity: 0, x: -16 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
@@ -219,8 +179,8 @@ function MobileServiceCard({ Icon, title, desc, accent, delay }) {
         <Icon size={20} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-cinzel font-bold text-white text-[13px] leading-tight">{title}</p>
-        <p className="font-poppins text-[11px] text-white/40 mt-0.5 leading-snug truncate">{desc}</p>
+        <p className="font-cinzel font-bold text-white text-[13px] leading-tight uppercase">{title}</p>
+        <p className="font-poppins text-[11px] text-white/40 mt-0.5 leading-snug line-clamp-2">{desc}</p>
       </div>
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 opacity-30">
         <path d="M6 4l4 4-4 4" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -229,23 +189,29 @@ function MobileServiceCard({ Icon, title, desc, accent, delay }) {
   )
 }
 
-export default function Services() {
-  const featured = services.filter(s => s.featured)
-  const regular  = services.filter(s => !s.featured)
+/**
+ * @param {'home' | 'page'} variant — home = homepage subset, page = full SEO services grid (/services)
+ */
+export default function Services({ variant = 'home' }) {
+  const isPage = variant === 'page'
+  const items = isPage ? buildSeoServices() : HOME_SERVICES
+  const featured = items.filter((s) => s.featured)
+  const regular = items.filter((s) => !s.featured)
 
   return (
     <section
-      id="services"
+      id={isPage ? undefined : 'services'}
       aria-label="Love back, ex love back, vashikaran & relationship astrology services"
       className="relative section-padding overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, rgba(3,7,18,1) 0%, rgba(10,15,35,1) 100%)' }}
+      style={{
+        background: 'linear-gradient(180deg, rgba(3,7,18,1) 0%, rgba(10,15,35,1) 100%)',
+        ...(isPage ? { paddingTop: 'clamp(100px, 14vw, 130px)' } : {}),
+      }}
     >
       <GlowOrb color="purple" size={600} top="40%" left="50%" opacity={0.05} />
-      <GlowOrb color="gold"   size={400} top="10%" left="80%" opacity={0.04} />
+      <GlowOrb color="gold" size={400} top="10%" left="80%" opacity={0.04} />
 
       <div className="site-container relative z-10">
-
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -261,29 +227,30 @@ export default function Services() {
           <p className="font-poppins text-white/35 text-sm mt-3">
             Every problem has a cosmic root. Results guaranteed within 24 hours.
           </p>
+          {!isPage && (
+            <Link to="/services" className="inline-block font-poppins text-[12px] text-gold-400/70 hover:text-gold-400 mt-4 transition-colors">
+              View all services →
+            </Link>
+          )}
         </motion.div>
 
-        {/* Featured cards — 1 col on mobile, 2 col on md+ */}
         <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '16px', marginBottom: '16px' }}>
           {featured.map((s, i) => (
-            <FeaturedCard key={s.title} service={s} delay={i * 0.1} />
+            <FeaturedCard key={s.slug || s.title} service={s} delay={i * 0.1} />
           ))}
         </div>
 
-        {/* Regular cards — 1 col on mobile (horizontal), 3 col on md+ */}
         <div className="hidden md:grid md:grid-cols-3" style={{ gap: '24px' }}>
           {regular.map((s, i) => (
-            <ServiceCard key={s.title} service={s} delay={0.2 + i * 0.07} />
+            <ServiceCard key={s.slug || s.title} service={s} delay={0.2 + i * 0.07} pageMode={isPage} />
           ))}
         </div>
 
-        {/* Mobile-only: horizontal list cards */}
         <div className="md:hidden flex flex-col" style={{ gap: '10px' }}>
-          {regular.map(({ Icon, title, desc, accent }, i) => (
-            <MobileServiceCard key={title} Icon={Icon} title={title} desc={desc} accent={accent} delay={i * 0.05} />
+          {regular.map((s, i) => (
+            <MobileServiceCard key={s.slug || s.title} Icon={s.Icon} title={s.title} desc={s.desc} accent={s.accent} slug={s.slug} delay={i * 0.05} />
           ))}
         </div>
-
       </div>
     </section>
   )

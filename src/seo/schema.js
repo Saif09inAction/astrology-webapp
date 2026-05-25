@@ -263,9 +263,10 @@ export function buildSchemaGraph() {
   }
 }
 
-/** City landing page JSON-LD */
-export function buildCitySchemaGraph(page) {
+/** City / location landing page JSON-LD */
+export function buildLocationSchemaGraph(page) {
   const pageUrl = `${siteUrl}/${page.slug}`
+  const kw = Array.isArray(page.keywords) ? page.keywords.join(', ') : ''
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -278,25 +279,19 @@ export function buildCitySchemaGraph(page) {
         inLanguage: 'en-IN',
         isPartOf: { '@id': `${siteUrl}/#website` },
         about: { '@id': `${siteUrl}/#business` },
-        keywords: page.keywords.join(', '),
+        keywords: kw,
       },
       {
         '@type': ['LocalBusiness', 'ProfessionalService'],
-        '@id': `${pageUrl}/#business`,
-        name: `${brandName} – Love Astrologer ${page.city}`,
+        '@id': `${pageUrl}/#local`,
+        name: `${brandName} – ${page.focus || 'Astrologer'} ${page.city}`,
         description: page.description,
         url: pageUrl,
         telephone: phone,
         image,
         areaServed: { '@type': 'City', name: page.city, containedInPlace: { '@type': 'AdministrativeArea', name: page.region } },
         priceRange: '₹₹',
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.9',
-          reviewCount: '1200',
-          bestRating: '5',
-          worstRating: '1',
-        },
+        aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '1200', bestRating: '5', worstRating: '1' },
       },
       {
         '@type': 'BreadcrumbList',
@@ -306,5 +301,122 @@ export function buildCitySchemaGraph(page) {
         ],
       },
     ],
+  }
+}
+
+/** @deprecated use buildLocationSchemaGraph */
+export const buildCitySchemaGraph = buildLocationSchemaGraph
+
+export function buildServiceSchemaGraph(page) {
+  const pageUrl = `${siteUrl}/${page.slug}`
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': `${pageUrl}/#webpage`,
+        url: pageUrl,
+        name: page.title,
+        description: page.description,
+        isPartOf: { '@id': `${siteUrl}/#website` },
+        keywords: page.keywords?.join(', '),
+      },
+      {
+        '@type': 'Service',
+        name: page.h1,
+        description: page.description,
+        url: pageUrl,
+        provider: { '@id': `${siteUrl}/#business` },
+        areaServed: buildAreaServedSchema(),
+        serviceType: page.keywords?.join(', '),
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: (page.faqs || []).map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: 'Services', item: `${siteUrl}/services` },
+          { '@type': 'ListItem', position: 3, name: page.h1, item: pageUrl },
+        ],
+      },
+    ],
+  }
+}
+
+export function buildBlogSchemaGraph(post) {
+  const pageUrl = `${siteUrl}/blog/${post.slug}`
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${pageUrl}/#article`,
+        headline: post.h1,
+        description: post.description,
+        datePublished: post.date,
+        dateModified: post.date,
+        author: { '@type': 'Person', name: brandName, url: siteUrl },
+        publisher: { '@id': `${siteUrl}/#business` },
+        mainEntityOfPage: pageUrl,
+        keywords: post.keywords?.join(', '),
+        inLanguage: 'en-IN',
+        articleSection: post.category,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog` },
+          { '@type': 'ListItem', position: 3, name: post.h1, item: pageUrl },
+        ],
+      },
+    ],
+  }
+}
+
+export function buildGenericPageSchema({ path, title, description }) {
+  const pageUrl = path.startsWith('http') ? path : `${siteUrl}${path}`
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        url: pageUrl,
+        name: title,
+        description,
+        isPartOf: { '@id': `${siteUrl}/#website` },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: title, item: pageUrl },
+        ],
+      },
+    ],
+  }
+}
+
+/** Route schema dispatcher */
+export function getSchemaForPage(pageType, pageData) {
+  switch (pageType) {
+    case 'home': return buildSchemaGraph()
+    case 'service': return buildServiceSchemaGraph(pageData)
+    case 'location': return buildLocationSchemaGraph(pageData)
+    case 'blog': return buildBlogSchemaGraph(pageData)
+    case 'about':
+    case 'contact':
+    case 'services':
+    case 'blog-index':
+      return buildGenericPageSchema(pageData)
+    default:
+      return buildSchemaGraph()
   }
 }

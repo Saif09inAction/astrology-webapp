@@ -6,9 +6,10 @@ import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
 import { onWhatsAppClick } from '../../analytics/meta'
-import { SEO_FAQS as faqs } from '../../seo/faqs'
+import { SEO_FAQS as DEFAULT_FAQS } from '../../seo/faqs'
 
-export default function FAQ() {
+export default function FAQ({ items, id = 'faq' }) {
+  const faqs = items ?? DEFAULT_FAQS
   const { settings } = useApp()
   const { panditName, whatsappBase } = settings
   const WHATSAPP_FREE = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I want a FREE consultation.`)}`
@@ -16,7 +17,7 @@ export default function FAQ() {
 
   return (
     <section
-      id="faq"
+      id={id}
       aria-label="FAQ – Love back astrologer, ex love back solution, vashikaran & online relationship guidance"
       className="relative section-padding overflow-hidden"
       style={{ background: 'linear-gradient(180deg, rgba(3,7,18,1) 0%, rgba(10,15,35,1) 100%)' }}

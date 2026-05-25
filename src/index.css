@@ -264,6 +264,20 @@ body {
   padding-bottom: clamp(4rem, 8vw, 7rem);
 }
 
+/* Inner-page hero grid — shared with homepage Hero */
+.hero-h1 { font-size: clamp(2.1rem, 4.5vw, 3.6rem); }
+
+@media (min-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr 400px !important; }
+  .hero-left  { align-items: flex-start !important; }
+}
+
+@media (max-width: 1023px) {
+  .hero-grid { grid-template-columns: 1fr !important; }
+  .hero-right { display: none !important; }
+  .hero-left  { align-items: center !important; text-align: center !important; }
+}
+
 /* Divider */
 .gold-divider {
   width: 80px;
