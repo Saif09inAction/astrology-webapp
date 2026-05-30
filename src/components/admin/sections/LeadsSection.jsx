@@ -19,6 +19,16 @@ function StatusBadge({ status }) {
   )
 }
 
+function SourceBadge({ source }) {
+  if (!source?.includes('chatbot')) return null
+  return (
+    <span className="font-poppins text-[9px] px-2 py-0.5 rounded-full uppercase tracking-wider"
+      style={{ background: 'rgba(245,158,11,0.1)', color: '#fbbf24', border: '1px solid rgba(245,158,11,0.22)' }}>
+      JyotiMitra
+    </span>
+  )
+}
+
 /* Desktop table row */
 function LeadRow({ lead, onStatusChange, onDelete }) {
   const [updating, setUpdating] = useState(false)
@@ -45,7 +55,10 @@ function LeadRow({ lead, onStatusChange, onDelete }) {
             {lead.name?.[0]?.toUpperCase() || '?'}
           </div>
           <div>
-            <p className="font-poppins text-sm text-white">{lead.name || '—'}</p>
+            <div className="flex items-center gap-2 flex-wrap">
+              <p className="font-poppins text-sm text-white">{lead.name || '—'}</p>
+              <SourceBadge source={lead.source} />
+            </div>
             <p className="font-poppins text-[10px] text-white/30">{date} {time && `· ${time}`}</p>
           </div>
         </div>
@@ -68,7 +81,7 @@ function LeadRow({ lead, onStatusChange, onDelete }) {
       </td>
       <td className="px-4 py-3.5">
         <span className="font-poppins text-xs text-purple-300 bg-purple-400/8 border border-purple-400/18 px-2.5 py-1 rounded-full">
-          {lead.service || lead.problem || '—'}
+          {lead.service || lead.problem || lead.category || '—'}
         </span>
       </td>
       <td className="px-4 py-3.5 max-w-[180px]">
@@ -125,7 +138,10 @@ function LeadCard({ lead, onStatusChange, onDelete }) {
             {lead.name?.[0]?.toUpperCase() || '?'}
           </div>
           <div>
-            <p className="font-poppins text-sm font-medium text-white">{lead.name || '—'}</p>
+            <div className="flex items-center gap-2 flex-wrap">
+              <p className="font-poppins text-sm font-medium text-white">{lead.name || '—'}</p>
+              <SourceBadge source={lead.source} />
+            </div>
             <p className="font-poppins text-[10px] text-white/30">{date}</p>
           </div>
         </div>
@@ -153,7 +169,7 @@ function LeadCard({ lead, onStatusChange, onDelete }) {
         </div>
         <div>
           <p className="font-poppins text-[9px] text-white/25 uppercase tracking-wider mb-0.5">Service</p>
-          <p className="font-poppins text-xs text-purple-300 truncate">{lead.service || lead.problem || '—'}</p>
+          <p className="font-poppins text-xs text-purple-300 truncate">{lead.service || lead.problem || lead.category || '—'}</p>
         </div>
       </div>
 
@@ -239,7 +255,10 @@ export default function LeadsSection({ leads, onLeadsChange }) {
       return (
         l.name?.toLowerCase().includes(q) ||
         l.phone?.includes(q) ||
-        (l.service || l.problem)?.toLowerCase().includes(q)
+        (l.service || l.problem || l.category)?.toLowerCase().includes(q) ||
+        l.message?.toLowerCase().includes(q) ||
+        l.source?.toLowerCase().includes(q) ||
+        l.concern?.toLowerCase().includes(q)
       )
     })
     .sort((a, b) => {

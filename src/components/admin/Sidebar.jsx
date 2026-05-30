@@ -2,15 +2,16 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../firebase/config'
 import {
-  LayoutDashboard, Users, Sparkles, Star, Settings, LogOut, X, ChevronLeft, ChevronRight,
+  LayoutDashboard, Users, Sparkles, Star, Settings, LogOut, X, ChevronLeft, ChevronRight, MessageCircle,
 } from 'lucide-react'
 
 const navItems = [
-  { id: 'overview',      label: 'Overview',      icon: LayoutDashboard },
-  { id: 'leads',         label: 'Leads',         icon: Users },
-  { id: 'services',      label: 'Services',      icon: Sparkles },
-  { id: 'testimonials',  label: 'Testimonials',  icon: Star },
-  { id: 'settings',      label: 'Settings',      icon: Settings },
+  { id: 'overview',       label: 'Overview',       icon: LayoutDashboard },
+  { id: 'leads',          label: 'Leads',          icon: Users },
+  { id: 'chatbot-leads',  label: 'Chatbot Leads',  icon: MessageCircle },
+  { id: 'services',       label: 'Services',       icon: Sparkles },
+  { id: 'testimonials',   label: 'Testimonials',   icon: Star },
+  { id: 'settings',       label: 'Settings',       icon: Settings },
 ]
 
 function NavLink({ item, active, collapsed, onClick }) {

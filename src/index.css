@@ -518,3 +518,207 @@ body {
   from { transform: translateX(-33.333%); }
   to   { transform: translateX(0); }
 }
+
+/* ── JyotiMitra Spiritual Guide FAB ── */
+.spirit-guide-fab {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: linear-gradient(145deg, rgba(10, 15, 30, 0.98), rgba(3, 7, 18, 0.98));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(245, 158, 11, 0.12);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
+}
+
+.spirit-guide-fab:hover {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(245, 158, 11, 0.25);
+}
+
+.spirit-guide-fab__aura {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
+  animation: spirit-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.spirit-guide-fab__ring {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px dashed rgba(167, 139, 250, 0.25);
+  animation: rotate-slow 20s linear infinite;
+  pointer-events: none;
+}
+
+.spirit-guide-fab__symbol {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fbbf24;
+  text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+  z-index: 1;
+}
+
+@keyframes spirit-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.08); }
+}
+
+/* ── JyotiMitra chat bubbles & options ── */
+.spirit-guide-bubble {
+  border-radius: 1.25rem;
+  padding: 1.125rem 1.25rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  margin-bottom: 2px;
+}
+
+.spirit-guide-bubble--bot {
+  background: linear-gradient(145deg, rgba(245, 158, 11, 0.09) 0%, rgba(255, 255, 255, 0.035) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.14);
+  border-bottom-left-radius: 0.35rem;
+}
+
+.spirit-guide-bubble--user {
+  background: linear-gradient(145deg, rgba(139, 92, 246, 0.18) 0%, rgba(109, 40, 217, 0.1) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.22);
+  border-bottom-right-radius: 0.35rem;
+}
+
+.spirit-guide-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.spirit-guide-option__text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.spirit-guide-option__chevron {
+  color: rgba(251, 191, 36, 0.5);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.spirit-guide-option:hover {
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(245, 158, 11, 0.22);
+}
+
+.spirit-guide-option:hover .spirit-guide-option__chevron {
+  opacity: 0.85;
+  transform: translateX(2px);
+}
+
+.spirit-guide-option:active {
+  transform: scale(0.99);
+}
+
+.spirit-guide-option--gold {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.04));
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+.spirit-guide-option--gold .spirit-guide-option__text {
+  color: #fbbf24;
+}
+
+.spirit-guide-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+/* FAB label above icon */
+.spirit-guide-fab-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: rgba(251, 191, 36, 0.9);
+  background: rgba(3, 7, 18, 0.94);
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* Input row */
+.spirit-guide-input-row {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+}
+
+.spirit-guide-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 50px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #fff;
+  outline: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  transition: border-color 0.2s ease;
+}
+
+.spirit-guide-input:focus {
+  border-color: rgba(245, 158, 11, 0.45);
+}
+
+.spirit-guide-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.spirit-guide-send {
+  flex-shrink: 0;
+  width: 50px;
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #0a0f1e;
+  background: linear-gradient(135deg, #fcd34d, #f59e0b);
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.spirit-guide-send:hover:not(:disabled) {
+  transform: scale(1.04);
+  box-shadow: 0 6px 22px rgba(245, 158, 11, 0.4);
+}
+
+.spirit-guide-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

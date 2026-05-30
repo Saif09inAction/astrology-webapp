@@ -31,6 +31,32 @@ export async function deleteLead(id) {
 }
 
 /* ─────────────────────────────────────────────
+   CHATBOT LEADS
+───────────────────────────────────────────── */
+export async function submitChatbotLead(data) {
+  const docRef = await addDoc(collection(db, 'chatbot_leads'), {
+    ...data,
+    status: 'new',
+    createdAt: serverTimestamp(),
+  })
+  return docRef
+}
+
+export async function getChatbotLeads() {
+  const q = query(collection(db, 'chatbot_leads'), orderBy('createdAt', 'desc'))
+  const snap = await getDocs(q)
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+}
+
+export async function updateChatbotLeadStatus(id, status) {
+  return updateDoc(doc(db, 'chatbot_leads', id), { status })
+}
+
+export async function deleteChatbotLead(id) {
+  return deleteDoc(doc(db, 'chatbot_leads', id))
+}
+
+/* ─────────────────────────────────────────────
    SERVICES
 ───────────────────────────────────────────── */
 export async function getServices() {

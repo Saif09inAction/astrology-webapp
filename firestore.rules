@@ -8,6 +8,11 @@ service cloud.firestore {
       allow read, update, delete: if request.auth != null;
     }
 
+    match /chatbot_leads/{leadId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+
     // ── SERVICES: anyone can read (for website), only admin can write
     match /services/{docId} {
       allow read: if true;

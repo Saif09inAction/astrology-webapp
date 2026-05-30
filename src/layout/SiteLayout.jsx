@@ -5,6 +5,7 @@ import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import FloatingButtons from '../components/ui/FloatingButtons'
 import LeadModal from '../components/ui/LeadModal'
+import SpiritGuideWidget from '../components/chatbot/SpiritGuideWidget'
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
@@ -44,6 +45,7 @@ export default function SiteLayout() {
         </AnimatePresence>
         <Footer />
         <FloatingButtons />
+        <SpiritGuideWidget />
       </div>
     </>
   )
