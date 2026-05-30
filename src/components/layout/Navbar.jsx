@@ -5,15 +5,20 @@ import { Menu, X, Home, Info, Sparkles, BookOpen, Star, HelpCircle, Phone as Pho
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
-import { onWhatsAppClick, onContactClick } from '../../analytics/meta'
+import { trackWhatsAppClick, onContactClick } from '../../analytics/meta'
 import { MAIN_NAV } from '../../seo/navigation'
 
 const ICONS = { Home, About: Info, Services: Sparkles, Blog: BookOpen, Testimonials: Star, FAQ: HelpCircle, Contact: PhoneIcon }
 
 export default function Navbar() {
-  const { settings } = useApp()
-  const { panditName, phoneDisplay, phoneTel, whatsappBase } = settings
-  const waConsult = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I need your consultation.`)}`
+  const { settings, openModal } = useApp()
+  const { panditName, phoneDisplay, phoneTel } = settings
+
+  const handleFreeConsult = (source) => {
+    trackWhatsAppClick({ source })
+    openModal(source)
+    setOpen(false)
+  }
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -111,7 +116,7 @@ export default function Navbar() {
 
           <div className="hidden lg:flex items-center gap-3 z-10">
             <Button as="a" variant="ghost" nav href={phoneTel} onClick={onContactClick('navbar_call_desktop')}>Call Now</Button>
-            <Button as="a" variant="primary" nav href={waConsult} target="_blank" rel="noopener noreferrer" onClick={onWhatsAppClick('navbar_whatsapp_desktop')}>
+            <Button variant="primary" nav onClick={() => handleFreeConsult('navbar_whatsapp_desktop')}>
               Free Consultation
             </Button>
           </div>
@@ -167,12 +172,12 @@ export default function Navbar() {
             </nav>
 
             <div className="flex flex-col gap-3">
-              <a href={waConsult} target="_blank" rel="noopener noreferrer"
-                onClick={(e) => { onWhatsAppClick('navbar_whatsapp_mobile')(e); setOpen(false) }}
+              <button type="button"
+                onClick={() => handleFreeConsult('navbar_whatsapp_mobile')}
                 className="w-full flex items-center justify-center gap-3 font-cinzel font-bold text-[15px] py-4 rounded-2xl"
                 style={{ background: 'linear-gradient(135deg,#fcd34d 0%,#f59e0b 100%)', color: '#0a0f1e', boxShadow: '0 8px 32px rgba(245,158,11,0.35)' }}>
                 <WhatsAppIcon size={19} /> Free WhatsApp Consultation
-              </a>
+              </button>
               <a href={phoneTel}
                 onClick={(e) => { onContactClick('navbar_call_mobile')(e); setOpen(false) }}
                 className="w-full flex items-center justify-center gap-3 font-poppins font-medium text-[14px] py-3.5 rounded-2xl"

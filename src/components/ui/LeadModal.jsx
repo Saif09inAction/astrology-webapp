@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Send, CheckCircle, User, ChevronDown, MessageSquare, Gift, Sparkles } from 'lucide-react'
+import { X, Send, CheckCircle, User, ChevronDown, Gift, Sparkles } from 'lucide-react'
 import { submitLead } from '../../firebase/firestore'
 import { useApp } from '../../context/AppContext'
 import { trackLeadSubmit } from '../../analytics/meta'
 
-const SERVICE_LIST = [
-  'Love Problem Solution', 'Ex Love Back', 'Marriage Consultation',
-  'Career Guidance', 'Kundli Matching', 'Business Problems',
-  'Family Disputes', 'Black Magic Protection', 'Other',
+const QUICK_SERVICES = [
+  'Love Problem Solution', 'Ex Love Back', 'Marriage Consultation', 'Other',
 ]
 
 const COUNTRY_CODES = [
@@ -85,24 +83,24 @@ export default function LeadModal() {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    if (!form.name.trim())          { setError('Please enter your full name.');    return }
-    if (form.phone.length < 6)      { setError('Please enter a valid phone number.'); return }
-    if (!form.service)              { setError('Please select a service.');         return }
+    if (!form.name.trim())          { setError('Please enter your name.'); return }
+    if (form.phone.length < 6)      { setError('Please enter your WhatsApp number.'); return }
+    const service = form.service || preselectedService || 'General Consultation'
     setError('')
     setLoading(true)
     const fullPhone = `${countryCode}${form.phone}`
     const msg = encodeURIComponent(
-      `Hello ${settings.panditName}, I need consultation regarding ${form.service}.${form.message ? ' ' + form.message : ''}`
+      `Hello ${settings.panditName}, I need consultation regarding ${service}.${form.message ? ' ' + form.message : ''}`
     )
     try {
       await submitLead({
         name: form.name.trim(), phone: fullPhone,
-        service: form.service, message: form.message.trim(), source: 'website-modal',
+        service, message: form.message.trim(), source: 'website-modal',
       })
       trackLeadSubmit({
         name: form.name.trim(),
         phone: fullPhone,
-        service: form.service,
+        service,
         source: 'lead_modal',
       })
       setSuccess(true)
@@ -117,7 +115,7 @@ export default function LeadModal() {
       trackLeadSubmit({
         name: form.name.trim(),
         phone: fullPhone,
-        service: form.service,
+        service,
         source: 'lead_modal',
       })
       // Still open WhatsApp even if Firestore fails, but show a note
@@ -244,7 +242,7 @@ export default function LeadModal() {
                     {preselectedService || 'Book Free Consultation'}
                   </h2>
                   <p className="font-poppins text-[11px]" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                    Fill the form · Get instant WhatsApp reply
+                    30 seconds · Pandit Ji replies on WhatsApp within 30 min
                   </p>
                 </div>
 
@@ -286,22 +284,8 @@ export default function LeadModal() {
                     ) : (
                       <motion.form key="form" onSubmit={handleSubmit} className="flex flex-col gap-2.5">
 
-                        {/* Name */}
-                        <div className="relative">
-                          <User size={12} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                            style={{ color: 'rgba(255,255,255,0.2)' }} />
-                          <input
-                            name="name" value={form.name} onChange={handleChange}
-                            placeholder="Your Full Name *" autoComplete="name"
-                            style={{ ...fieldStyle.base, padding: '10px 12px 10px 30px' }}
-                            onFocus={e => e.target.style.borderColor = 'rgba(245,158,11,0.45)'}
-                            onBlur={e  => e.target.style.borderColor = 'rgba(255,255,255,0.09)'}
-                          />
-                        </div>
-
-                        {/* Phone row: country code + number */}
+                        {/* Phone row — first, highest priority */}
                         <div className="flex gap-2">
-                          {/* Country code selector */}
                           <div className="relative shrink-0">
                             <select
                               value={countryCode}
@@ -327,20 +311,18 @@ export default function LeadModal() {
                             <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"
                               style={{ color: 'rgba(255,255,255,0.25)' }} />
                           </div>
-
-                          {/* Phone number */}
                           <div className="relative flex-1">
                             <input
                               name="phone" type="tel" value={form.phone}
                               onChange={handlePhoneChange}
-                              placeholder={`${maxDigits}-digit number *`}
+                              placeholder={`WhatsApp number *`}
                               maxLength={maxDigits}
                               inputMode="numeric"
+                              autoFocus
                               style={{ ...fieldStyle.base, padding: '10px 36px 10px 12px' }}
                               onFocus={e => e.target.style.borderColor = 'rgba(245,158,11,0.45)'}
                               onBlur={e  => e.target.style.borderColor = 'rgba(255,255,255,0.09)'}
                             />
-                            {/* digit counter */}
                             <span className="absolute right-2.5 top-1/2 -translate-y-1/2 font-poppins"
                               style={{ fontSize: 9, color: form.phone.length === maxDigits ? '#34d399' : 'rgba(255,255,255,0.2)' }}>
                               {form.phone.length}/{maxDigits}
@@ -348,45 +330,41 @@ export default function LeadModal() {
                           </div>
                         </div>
 
-                        {/* Service */}
+                        {/* Name */}
                         <div className="relative">
-                          <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                          <User size={12} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
                             style={{ color: 'rgba(255,255,255,0.2)' }} />
-                          <select
-                            name="service" value={form.service} onChange={handleChange}
-                            style={{
-                              ...fieldStyle.base,
-                              padding: '10px 30px 10px 12px',
-                              appearance: 'none',
-                              WebkitAppearance: 'none',
-                              cursor: 'pointer',
-                              color: form.service ? '#fff' : 'rgba(255,255,255,0.3)',
-                              background: '#0c1228',
-                            }}
-                            onFocus={e => e.target.style.borderColor = 'rgba(245,158,11,0.45)'}
-                            onBlur={e  => e.target.style.borderColor = 'rgba(255,255,255,0.09)'}
-                          >
-                            <option value="" style={{ background: '#0c1228', color: 'rgba(255,255,255,0.3)' }}>
-                              Select Your Problem *
-                            </option>
-                            {SERVICE_LIST.map(s => (
-                              <option key={s} value={s} style={{ background: '#0c1228', color: '#fff' }}>{s}</option>
-                            ))}
-                          </select>
-                        </div>
-
-                        {/* Message */}
-                        <div className="relative">
-                          <MessageSquare size={12} className="absolute left-3 top-[11px] pointer-events-none"
-                            style={{ color: 'rgba(255,255,255,0.2)' }} />
-                          <textarea
-                            name="message" value={form.message} onChange={handleChange}
-                            placeholder="Briefly describe your situation (optional)"
-                            rows={2}
-                            style={{ ...fieldStyle.base, padding: '10px 12px 10px 30px', resize: 'none' }}
+                          <input
+                            name="name" value={form.name} onChange={handleChange}
+                            placeholder="Your Name *" autoComplete="name"
+                            style={{ ...fieldStyle.base, padding: '10px 12px 10px 30px' }}
                             onFocus={e => e.target.style.borderColor = 'rgba(245,158,11,0.45)'}
                             onBlur={e  => e.target.style.borderColor = 'rgba(255,255,255,0.09)'}
                           />
+                        </div>
+
+                        {/* Optional service chips */}
+                        <div>
+                          <p className="font-poppins text-[10px] mb-2" style={{ color: 'rgba(255,255,255,0.28)' }}>
+                            Your concern (optional)
+                          </p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {QUICK_SERVICES.map(s => (
+                              <button
+                                key={s}
+                                type="button"
+                                onClick={() => setForm(p => ({ ...p, service: p.service === s ? '' : s }))}
+                                className="font-poppins text-[10px] px-2.5 py-1.5 rounded-lg transition-all"
+                                style={{
+                                  background: form.service === s ? 'rgba(245,158,11,0.18)' : 'rgba(255,255,255,0.03)',
+                                  border: `1px solid ${form.service === s ? 'rgba(245,158,11,0.45)' : 'rgba(255,255,255,0.08)'}`,
+                                  color: form.service === s ? '#fbbf24' : 'rgba(255,255,255,0.45)',
+                                }}
+                              >
+                                {s}
+                              </button>
+                            ))}
+                          </div>
                         </div>
 
                         {/* Error */}
@@ -414,7 +392,7 @@ export default function LeadModal() {
                         >
                           {loading
                             ? <div className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(3,7,18,0.15)', borderTopColor: '#030712' }} />
-                            : <><Sparkles size={13} /> Get Free Consultation Now</>
+                            : <><Sparkles size={13} /> Open WhatsApp — Free Consultation</>
                           }
                         </button>
 

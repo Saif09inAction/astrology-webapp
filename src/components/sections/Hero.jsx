@@ -260,7 +260,7 @@ export default function Hero() {
                 onClick={() => openModal()}
                 icon={<WhatsAppIcon size={18} />}
               >
-                Free WhatsApp Consultation
+                Free WhatsApp — Reply in 30 Min
               </Button>
               <Button
                 as="a"

@@ -155,7 +155,7 @@ export const TRUST_MESSAGE =
   'Pandit Ji has guided 5,000+ souls across 50+ countries with ancient Vedic wisdom. Your journey is sacred — and completely confidential.'
 
 export const LEAD_PROMPTS = {
-  name: 'May I know your name, so Pandit Ji can address you personally?',
-  phone: 'Please share your WhatsApp number for a private consultation.',
-  concern: 'Would you like to briefly describe your concern? (Optional — you can skip)',
+  name: 'What is your name?',
+  phone: 'Your WhatsApp number? (Pandit Ji will reply here)',
+  concern: 'Briefly describe your concern? (Optional — tap Skip below)',
 }

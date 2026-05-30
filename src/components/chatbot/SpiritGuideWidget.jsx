@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import useSpiritGuide from '../../chatbot/useSpiritGuide'
 import useDraggableFab from '../../chatbot/useDraggableFab'
 import { ASSISTANT } from '../../chatbot/config'
+import { isPaidTraffic } from '../../utils/adTraffic'
 
 function TypingIndicator() {
   return (
@@ -69,7 +70,7 @@ export default function SpiritGuideWidget() {
   const { pos, onPointerDown, onPointerMove, onPointerUp } = useDraggableFab()
 
   const {
-    open, openChat, closeChat, resetChat,
+    open, openChat, openQuickConnect, closeChat, resetChat,
     messages, typing, options, inputMode, inputValue, setInputValue,
     handleOption, handleInputSubmit,
     submitting, completed, scrollRef,
@@ -80,6 +81,19 @@ export default function SpiritGuideWidget() {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
   }, [open, pathname])
+
+  // Auto-open for paid ad traffic so visitors capture name + phone before WhatsApp
+  useEffect(() => {
+    if (pathname.startsWith('/admin') || !isPaidTraffic()) return
+    if (sessionStorage.getItem('jyotimitra_ad_prompt')) return
+
+    const timer = setTimeout(() => {
+      sessionStorage.setItem('jyotimitra_ad_prompt', '1')
+      openQuickConnect()
+    }, 3000)
+
+    return () => clearTimeout(timer)
+  }, [pathname, openQuickConnect])
 
   if (pathname.startsWith('/admin')) return null
 
@@ -132,13 +146,14 @@ export default function SpiritGuideWidget() {
               onClick={closeChat}
             />
             <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 20, scale: 0.97 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
               className="spirit-guide-panel fixed z-[60] flex flex-col overflow-hidden
                 top-3 left-3 right-3 bottom-3 rounded-[1.35rem]
-                md:top-auto md:left-auto md:bottom-6 md:right-4 md:w-[420px] md:h-[min(660px,calc(100vh-56px))] md:rounded-3xl"
+                md:top-1/2 md:left-1/2 md:right-auto md:bottom-auto md:-translate-x-1/2 md:-translate-y-1/2
+                md:w-[440px] md:h-[min(680px,calc(100vh-64px))] md:rounded-3xl"
               style={{
                 background: 'linear-gradient(180deg, #0a0f1e 0%, #030712 100%)',
                 border: '1px solid rgba(245,158,11,0.15)',
@@ -193,7 +208,7 @@ export default function SpiritGuideWidget() {
                   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
                     className="spirit-guide-options mt-6 pt-5 border-t border-white/[0.06]">
                     {options.map(opt => {
-                      const isPrimary = opt.type === 'consult' || opt.type === 'skip'
+                      const isPrimary = opt.type === 'consult' || opt.type === 'skip' || opt.type === 'quick'
                       return (
                         <button key={opt.id + opt.label} type="button" onClick={() => handleOption(opt)}
                           className={`spirit-guide-option w-full ${isPrimary ? 'spirit-guide-option--gold' : ''}`}>

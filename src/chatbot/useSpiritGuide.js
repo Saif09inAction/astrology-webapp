@@ -104,6 +104,7 @@ export default function useSpiritGuide() {
     setMessages([])
     await addBot(`Welcome.\n\nI am **${ASSISTANT.name}**, ${ASSISTANT.title}.\n\nHow may I assist you today?`, 500)
     setOptions([
+      { type: 'quick', id: 'quick', label: 'Connect on WhatsApp Now — takes 30 seconds' },
       ...MAIN_CATEGORIES.map(c => ({ type: 'category', id: c.id, label: c.label })),
       { type: 'faq-menu', id: 'faq', label: 'Common Questions' },
     ])
@@ -188,10 +189,19 @@ export default function useSpiritGuide() {
       await handleFaq(option.id)
     } else if (option.type === 'consult') {
       await handleConsultFromFaq()
+    } else if (option.type === 'quick') {
+      addUser('Connect on WhatsApp Now')
+      stateRef.current.category = 'quick'
+      stateRef.current.categoryLabel = 'General Guidance'
+      stateRef.current.path = ['Quick Connect']
+      await addBot(`Free WhatsApp consultation — just **name + number**. Pandit Ji replies within **30 minutes**. No payment upfront.`, 450)
+      await addBot(LEAD_PROMPTS.name, 400)
+      stateRef.current.phase = 'lead-name'
+      setInputMode('name')
     } else if (option.type === 'skip') {
       await handleSkipConcern()
     }
-  }, [handleCategory, handleStep, showFaqMenu, handleFaq, handleConsultFromFaq, addUser])
+  }, [handleCategory, handleStep, showFaqMenu, handleFaq, handleConsultFromFaq, addUser, addBot])
 
   const submitLeadToFirebase = useCallback(async () => {
     const s = stateRef.current
@@ -264,6 +274,10 @@ export default function useSpiritGuide() {
       addUser(s.phone)
       setInputValue('')
       setInputMode(null)
+      if (s.category === 'quick') {
+        await submitLeadToFirebase()
+        return
+      }
       stateRef.current.phase = 'lead-concern'
       await addBot(LEAD_PROMPTS.concern, 500)
       setInputMode('concern')
@@ -287,6 +301,29 @@ export default function useSpiritGuide() {
     await submitLeadToFirebase()
   }, [addUser, submitLeadToFirebase])
 
+  const openQuickConnect = useCallback(async () => {
+    setOpen(true)
+    setCompleted(false)
+    setInputMode(null)
+    setInputValue('')
+    setOptions([])
+    setMessages([])
+    stateRef.current = {
+      phase: 'lead-name',
+      category: 'quick',
+      categoryLabel: 'General Guidance',
+      stepIndex: 0,
+      path: ['Quick Connect'],
+      name: '',
+      phone: '',
+      concern: '',
+      faqMode: false,
+    }
+    await addBot(`Free WhatsApp consultation with **${settings.panditName}**.\n\nShare name + number — reply within **30 minutes**.`, 350)
+    await addBot(LEAD_PROMPTS.name, 350)
+    setInputMode('name')
+  }, [addBot, settings.panditName])
+
   const openChat = useCallback(() => {
     setOpen(true)
     if (messages.length === 0) showWelcome()
@@ -299,6 +336,7 @@ export default function useSpiritGuide() {
   return {
     open,
     openChat,
+    openQuickConnect,
     closeChat,
     resetChat,
     messages,

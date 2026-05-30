@@ -3,13 +3,12 @@ import { Phone, Clock, MapPin } from 'lucide-react'
 import Button from '../ui/Button'
 import { WhatsAppIcon } from '../ui/Icons'
 import { useApp } from '../../context/AppContext'
-import { onWhatsAppClick, onContactClick } from '../../analytics/meta'
+import { trackWhatsAppClick, onContactClick } from '../../analytics/meta'
 import { MAIN_NAV, FOOTER_SERVICE_LINKS, FOOTER_LOCATION_LINKS } from '../../seo/navigation'
 
 export default function Footer() {
-  const { settings } = useApp()
-  const { panditName, phoneDisplay, phoneTel, whatsappBase } = settings
-  const waConsult = `${whatsappBase}?text=${encodeURIComponent(`Hello ${panditName} Ji, I need your consultation.`)}`
+  const { settings, openModal } = useApp()
+  const { panditName, phoneDisplay, phoneTel } = settings
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -113,8 +112,9 @@ export default function Footer() {
               <p className="font-poppins text-[13px] text-white/70">India · Online Worldwide</p>
             </li>
           </ul>
-          <Button as="a" variant="primary" href={waConsult} target="_blank" rel="noopener noreferrer"
-            onClick={onWhatsAppClick('footer_whatsapp')} icon={<WhatsAppIcon size={15} />}
+          <Button variant="primary"
+            onClick={() => { trackWhatsAppClick({ source: 'footer_whatsapp' }); openModal('footer_whatsapp') }}
+            icon={<WhatsAppIcon size={15} />}
             className="mt-5 !text-[13px] !py-2.5 !px-5">
             Free Consultation
           </Button>
