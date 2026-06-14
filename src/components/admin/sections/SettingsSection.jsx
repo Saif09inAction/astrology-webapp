@@ -93,18 +93,18 @@ export default function SettingsSection() {
         </Field>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field label="WhatsApp / Phone Number (digits only)"
-            hint="e.g. 917257857609 — include country code, no + or spaces">
+            hint="e.g. 917737669336 — include country code, no + or spaces">
             <div className="relative">
               <MessageCircle size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/25" />
               <input className={`${inputCls} pl-9`} value={form.phoneRaw} onChange={set('phoneRaw')}
-                placeholder="917257857609" />
+                placeholder="917737669336" />
             </div>
           </Field>
           <Field label="Display Number" hint="Shown on buttons and contact cards">
             <div className="relative">
               <Phone size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/25" />
               <input className={`${inputCls} pl-9`} value={form.phoneDisplay} onChange={set('phoneDisplay')}
-                placeholder="+91 72578 57609" />
+                placeholder="+91 77376 69336" />
             </div>
           </Field>
         </div>
